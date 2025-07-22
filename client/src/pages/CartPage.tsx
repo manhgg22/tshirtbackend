@@ -1,31 +1,28 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Container } from '@mui/material';
-import { RootState } from '../redux/store';
-import { removeItem, updateQuantity } from '../redux/cartSlice';
-import CartTable from '../components/CartTable';
+import { useSelector, useDispatch } from "react-redux"
+import { Layout } from "antd"
+import type { RootState } from "../redux/store"
+import { removeItem, updateQuantity } from "../redux/cartSlice"
+import CartTable from "../components/CartTable"
+
+const { Content } = Layout
 
 const CartPage = () => {
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const dispatch = useDispatch()
+  const cartItems = useSelector((state: RootState) => state.cart.items)
 
   const handleUpdateQuantity = (productId: string, designId: string | undefined, newQuantity: number) => {
-    dispatch(updateQuantity({ productId, designId, quantity: newQuantity }));
-  };
+    dispatch(updateQuantity({ productId, designId, quantity: newQuantity }))
+  }
 
   const handleRemoveItem = (productId: string, designId: string | undefined) => {
-    dispatch(removeItem({ productId, designId }));
-  };
+    dispatch(removeItem({ productId, designId }))
+  }
 
   return (
-    <Container sx={{ py: 4 }}>
-      <CartTable
-        items={cartItems}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-      />
-    </Container>
-  );
-};
+    <Content style={{ padding: "24px", maxWidth: 1200, margin: "0 auto" }}>
+      <CartTable items={cartItems} onUpdateQuantity={handleUpdateQuantity} onRemoveItem={handleRemoveItem} />
+    </Content>
+  )
+}
 
-export default CartPage;
+export default CartPage

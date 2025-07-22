@@ -1,35 +1,38 @@
-import React from 'react';
-import { Table, Typography, Button, InputNumber, Space, Image } from 'antd';
-import { DeleteOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import { CartItem } from '../types';
+"use client"
+
+import type React from "react"
+import { Table, Typography, Button, InputNumber, Space, Image, Popconfirm, message } from "antd"
+import { DeleteOutlined, MinusOutlined, PlusOutlined } from "@ant-design/icons"
+import type { CartItem } from "../types"
 
 interface CartTableProps {
-  items: CartItem[];
-  onUpdateQuantity: (productId: string, designId: string | undefined, quantity: number) => void;
-  onRemoveItem: (productId: string, designId: string | undefined) => void;
+  items: CartItem[]
+  onUpdateQuantity: (productId: string, designId: string | undefined, quantity: number) => void
+  onRemoveItem: (productId: string, designId: string | undefined) => void
 }
 
 const CartTable: React.FC<CartTableProps> = ({ items, onUpdateQuantity, onRemoveItem }) => {
-  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
   const columns = [
     {
-      title: 'Product',
-      key: 'product',
+      title: "Sản phẩm",
+      key: "product",
       render: (item: CartItem) => (
         <Space>
           <Image
-            src={`http://localhost:5000${item.product.image}`}
+            src={`/placeholder.svg?height=80&width=80&query=vietnamese t-shirt ${item.product.name}`}
             alt={item.product.name}
             width={80}
             height={80}
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: "cover", borderRadius: 4 }}
+            preview={false}
           />
           <div>
             <Typography.Text strong>{item.product.name}</Typography.Text>
             {item.design && (
-              <Typography.Text type="secondary" style={{ display: 'block' }}>
-                Custom Design: {item.design.name}
+              <Typography.Text type="secondary" style={{ display: "block" }}>
+                Thiết kế: {item.design.name}
               </Typography.Text>
             )}
           </div>
@@ -37,13 +40,13 @@ const CartTable: React.FC<CartTableProps> = ({ items, onUpdateQuantity, onRemove
       ),
     },
     {
-      title: 'Price',
-      dataIndex: 'price',
+      title: "Giá",
+      dataIndex: "price",
       render: (price: number) => `$${price.toFixed(2)}`,
     },
     {
-      title: 'Quantity',
-      key: 'quantity',
+      title: "Số lượng",
+      key: "quantity",
       render: (item: CartItem) => (
         <Space>
           <Button
@@ -65,41 +68,64 @@ const CartTable: React.FC<CartTableProps> = ({ items, onUpdateQuantity, onRemove
       ),
     },
     {
-      title: 'Total',
-      key: 'total',
+      title: "Tổng cộng",
+      key: "total",
       render: (item: CartItem) => `$${(item.price * item.quantity).toFixed(2)}`,
     },
     {
-      title: 'Actions',
-      key: 'actions',
+      title: "Hành động",
+      key: "actions",
       render: (item: CartItem) => (
-        <Button
-          danger
-          icon={<DeleteOutlined />}
-          onClick={() => onRemoveItem(item.productId, item.designId)}
+        <Popconfirm
+          title="Bạn có chắc muốn xóa sản phẩm này?"
+          onConfirm={() => {
+            onRemoveItem(item.productId, item.designId)
+            message.success("Đã xóa sản phẩm khỏi giỏ hàng!")
+          }}
+          okText="Có"
+          cancelText="Không"
         >
-          Remove
-        </Button>
+          <Button danger icon={<DeleteOutlined />}>
+            Xóa
+          </Button>
+        </Popconfirm>
       ),
     },
-  ];
+  ]
 
   return (
-    <div style={{ padding: '24px' }}>
-      <Typography.Title level={2}>Shopping Cart</Typography.Title>
+    <div style={{ padding: "24px", background: "#fff", borderRadius: 8 }}>
+      <Typography.Title level={2} style={{ marginBottom: "24px" }}>
+        Giỏ hàng của bạn
+      </Typography.Title>
       <Table
         columns={columns}
         dataSource={items}
-        rowKey={(item) => `${item.productId}-${item.designId || 'no-design'}`}
+        rowKey={(item) => `${item.productId}-${item.designId || "no-design"}`}
         pagination={false}
-        footer={() => (
-          <Typography.Title level={3} style={{ textAlign: 'right' }}>
-            Total: ${total.toFixed(2)}
-          </Typography.Title>
+        summary={() => (
+          <Table.Summary.Row>
+            <Table.Summary.Cell index={0} colSpan={4} align="right">
+              <Typography.Title level={3} style={{ margin: 0 }}>
+                Tổng cộng:
+              </Typography.Title>
+            </Table.Summary.Cell>
+            <Table.Summary.Cell index={1} colSpan={1} align="left">
+              <Typography.Title level={3} style={{ margin: 0, color: "#E4002B" }}>
+                ${total.toFixed(2)}
+              </Typography.Title>
+            </Table.Summary.Cell>
+            <Table.Summary.Cell index={2} colSpan={1} />
+          </Table.Summary.Row>
         )}
       />
+      <div style={{ textAlign: "right", marginTop: "24px" }}>
+        <Button type="primary" size="large">
+          Tiến hành thanh toán
+        </Button>
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default CartTable;
+export default CartTable

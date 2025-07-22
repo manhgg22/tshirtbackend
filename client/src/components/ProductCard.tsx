@@ -1,46 +1,51 @@
-import React from 'react';
-import { Card, CardContent, CardMedia, Typography, Button, Grid } from '@mui/material';
-import { Product } from '../types';
-import { Box } from '@mui/material';
+"use client"
+
+import type React from "react"
+import { Card, Typography, Button, Image, Tooltip } from "antd"
+import { ShoppingCartOutlined } from "@ant-design/icons"
+import type { Product } from "../types"
 
 interface ProductCardProps {
-  product: Product;
-  onAddToCart: () => void;
+  product: Product
+  onAddToCart: () => void
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
   return (
-    <Box sx={{ gridColumn: { xs: 'span 12', sm: 'span 6', md: 'span 4' } }}>
-      <Card>
-        <CardMedia
-          component="img"
-          height="200"
-          image={`http://localhost:5000${product.image}`}
+    <Card
+      hoverable
+      style={{ width: "100%", borderRadius: 8, overflow: "hidden" }}
+      cover={
+        <Image
           alt={product.name}
+          src={`/placeholder.svg?height=250&width=250&query=vietnamese patriotic t-shirt ${product.name}`}
+          style={{ objectFit: "cover", height: 250 }}
+          preview={false}
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {product.name}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {product.description}
-          </Typography>
-          <Typography variant="h6" color="primary" sx={{ mt: 2 }}>
-            ${product.price.toFixed(2)}
-          </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={onAddToCart}
-            fullWidth
-            sx={{ mt: 2 }}
-          >
-            Add to Cart
+      }
+      actions={[
+        <Tooltip title="Thêm vào giỏ hàng" key="add-to-cart">
+          <Button type="text" icon={<ShoppingCartOutlined />} onClick={onAddToCart}>
+            Thêm vào giỏ
           </Button>
-        </CardContent>
-      </Card>
-    </Box>
-  );
-};
+        </Tooltip>,
+      ]}
+    >
+      <Card.Meta
+        title={<Typography.Title level={4}>{product.name}</Typography.Title>}
+        description={
+          <>
+            <Typography.Paragraph ellipsis={{ rows: 2 }} type="secondary">
+              {product.description}
+            </Typography.Paragraph>
+            <Typography.Title level={3} style={{ marginTop: 8, color: "#E4002B" }}>
+              ${product.price.toFixed(2)}
+            </Typography.Title>
+          </>
+        }
+      />
+    </Card>
+  )
+}
 
-export default ProductCard;
+export default ProductCard

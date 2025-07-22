@@ -21,7 +21,10 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/designs', designRoutes);
-app.use('/api/orders', orderRoutes);
+app.use('/api/orders', orderRoutes);app.get("/api/test", (req, res) => {
+  res.send("Hello world");
+});
+
 
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/vietnam-tshirts';

@@ -13,14 +13,17 @@ export interface AuthState {
 }
 
 export interface Product {
-  _id: string;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  category: string;
-  inStock: boolean;
+  _id: string
+  name: string
+  price: number
+  image: string
+  description: string
+  category: string
+  rating: number
+  sold: number
+  inStock: boolean
 }
+
 
 export interface Design {
   _id: string;

@@ -1,66 +1,75 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Container, Paper, TextField, Button, Typography, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { login } from '../redux/authSlice';
-import { AppDispatch } from '../redux/store';
+"use client"
+
+import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { Card, Form, Input, Button, Typography, message } from "antd"
+import { useNavigate } from "react-router-dom"
+import { login } from "../redux/authSlice"
+import type { AppDispatch } from "../redux/store"
+import { UserOutlined, LockOutlined } from "@ant-design/icons"
 
 const LoginPage = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
+  const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onFinish = async (values: any) => {
+    setLoading(true)
     try {
-      await dispatch(login(formData)).unwrap();
-      navigate('/');
-    } catch (error) {
-      console.error('Login failed:', error);
+      await dispatch(login(values)).unwrap()
+      message.success("Đăng nhập thành công!")
+      navigate("/")
+    } catch (error: any) {
+      message.error(error.message || "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.")
+      console.error("Login failed:", error)
+    } finally {
+      setLoading(false)
     }
-  };
+  }
 
   return (
-    <Container maxWidth="sm" sx={{ py: 4 }}>
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h4" gutterBottom>
-          Login
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
+    <div
+      style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "80vh", padding: "24px" }}
+    >
+      <Card style={{ width: 400, padding: "20px", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
+        <Typography.Title level={2} style={{ textAlign: "center", marginBottom: "24px", color: "#E4002B" }}>
+          Đăng nhập
+        </Typography.Title>
+        <Form name="login" initialValues={{ remember: true }} onFinish={onFinish} layout="vertical">
+          <Form.Item
             label="Email"
-            margin="normal"
-            required
-            type="email"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          />
-          <TextField
-            fullWidth
-            label="Password"
-            margin="normal"
-            required
-            type="password"
-            value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ mt: 3 }}
+            name="email"
+            rules={[
+              { required: true, message: "Vui lòng nhập email của bạn!" },
+              { type: "email", message: "Vui lòng nhập đúng định dạng email!" },
+            ]}
           >
-            Login
-          </Button>
-        </Box>
-      </Paper>
-    </Container>
-  );
-};
+            <Input prefix={<UserOutlined />} placeholder="Email" />
+          </Form.Item>
 
-export default LoginPage;
+          <Form.Item
+            label="Mật khẩu"
+            name="password"
+            rules={[{ required: true, message: "Vui lòng nhập mật khẩu của bạn!" }]}
+          >
+            <Input.Password prefix={<LockOutlined />} placeholder="Mật khẩu" />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit" block loading={loading} style={{ height: 40, fontSize: 16 }}>
+              Đăng nhập
+            </Button>
+          </Form.Item>
+          <Typography.Text style={{ textAlign: "center", display: "block" }}>
+            Chưa có tài khoản?{" "}
+            <a onClick={() => navigate("/register")} style={{ color: "#E4002B", fontWeight: "bold" }}>
+              Đăng ký ngay!
+            </a>
+          </Typography.Text>
+        </Form>
+      </Card>
+    </div>
+  )
+}
+
+export default LoginPage
