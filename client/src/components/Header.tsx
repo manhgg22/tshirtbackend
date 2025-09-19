@@ -95,7 +95,7 @@ const Header: React.FC = () => {
             <Dropdown overlay={userMenu} placement="bottomRight">
               <Space>
                 <Avatar icon={<UserOutlined />} />
-                <span style={{ color: "#fff" }}>{user.name}</span>
+                <span style={{ color: "#333", marginLeft: 8 }}>{user.name}</span>
               </Space>
             </Dropdown>
           ) : (
