@@ -2,7 +2,7 @@ import express from 'express';
 import multer from 'multer';
 import path from 'path';
 import * as productController from '../controllers/products';
-import { auth } from '../middlewares/auth';
+import { protect } from '../middlewares/auth'; // ✅
 
 const router = express.Router();
 
@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.post('/', auth, upload.single('image'), productController.createProduct);
+router.post('/', protect, upload.single('image'), productController.createProduct);
 router.get('/', productController.getProducts);
 router.get('/:id', productController.getProduct);
 

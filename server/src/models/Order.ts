@@ -21,6 +21,8 @@ const orderSchema = new mongoose.Schema({
     zipCode: { type: String, required: true },
     country: { type: String, required: true },
   },
+  orderCode: { type: String, required: true, unique: true },
+confirmedAt: { type: Date },
   createdAt: { type: Date, default: Date.now },
 });
 

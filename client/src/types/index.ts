@@ -1,29 +1,29 @@
 export interface User {
   _id: string;
-  email: string;
   name: string;
-  role: 'user' | 'admin';
+  email: string;
+  role: string;
 }
 
 export interface AuthState {
   user: User | null;
   token: string | null;
+  isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
 }
 
 export interface Product {
-  _id: string
-  name: string
-  price: number
-  image: string
-  description: string
-  category: string
-  rating: number
-  sold: number
-  inStock: boolean
+  _id: string;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  category: string;
+  rating: number;
+  sold: number;
+  inStock: boolean;
 }
-
 
 export interface Design {
   _id: string;
@@ -36,10 +36,10 @@ export interface Design {
 export interface CartItem {
   productId: string;
   designId?: string;
-  quantity: number;
-  price: number;
   product: Product;
   design?: Design;
+  quantity: number;
+  price: number;
 }
 
 export interface Order {
@@ -56,4 +56,15 @@ export interface Order {
     country: string;
   };
   createdAt: string;
+}
+
+export interface CartState {
+  items: CartItem[];
+}
+
+export interface ProductState {
+  products: Product[];
+  selectedProduct: Product | null;
+  loading: boolean;
+  error: string | null;
 }

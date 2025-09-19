@@ -1,24 +1,14 @@
 import express from 'express';
 import multer from 'multer';
-import path from 'path';
 import * as designController from '../controllers/designs';
-import { auth } from '../middlewares/auth';
+import { protect } from '../middlewares/auth'; // ✅ ĐÚNG
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../../uploads'));
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
+// ví dụ cấu hình upload (nếu bạn đã có thì giữ cái của bạn)
+const upload = multer({ dest: 'uploads/' });
 
-const upload = multer({ storage });
-
-router.post('/', auth, upload.single('image'), designController.createDesign);
-router.get('/my-designs', auth, designController.getMyDesigns);
-router.get('/public', designController.getPublicDesigns);
+router.post('/', protect, upload.single('image'), designController.createDesign); // ✅
+router.get('/my-designs', protect, designController.getMyDesigns);               // ✅
 
 export default router;

@@ -1,60 +1,61 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import User from '../models/User';
+import { signToken } from '../utils/jwt';
+import bcrypt from 'bcryptjs';
 
+const sanitizeUser = (user: any) => {
+  const { password, __v, ...rest } = user.toObject();
+  return rest;
+};
+
+// POST /api/auth/register
 export const register = async (req: Request, res: Response) => {
   try {
-    const { email, password, name } = req.body;
+    const { name, email, password, role } = req.body;
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: 'User already exists' });
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: 'Vui lòng nhập đủ name, email, password' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
-    const user = new User({
-      email,
-      password: hashedPassword,
-      name,
+    const existed = await User.findOne({ email: email.toLowerCase() });
+    if (existed) return res.status(409).json({ message: 'Email đã được sử dụng' });
+
+    const user = await User.create({ name, email, password, role });
+    const token = signToken(user._id.toString());
+
+    return res.status(201).json({
+      message: 'Đăng ký thành công',
+      token,
+      user: sanitizeUser(user),
     });
-
-    await user.save();
-
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET || 'your-secret-key',
-      { expiresIn: '1h' }
-    );
-
-    res.status(201).json({ token, userId: user._id });
-  } catch (error) {
-    res.status(500).json({ message: 'Error creating user' });
+  } catch (err) {
+    return res.status(500).json({ message: 'Lỗi máy chủ', error: (err as Error).message });
   }
 };
 
+// POST /api/auth/login
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Vui lòng nhập email và mật khẩu1' });
     }
 
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    if (!isValidPassword) {
-      return res.status(401).json({ message: 'Invalid credentials' });
-    }
+    const user = await User.findOne({ email: email.toLowerCase() });
+    if (!user) return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' });
 
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET || 'your-secret-key',
-      { expiresIn: '1h' }
-    );
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' });
 
-    res.json({ token, userId: user._id });
-  } catch (error) {
-    res.status(500).json({ message: 'Error logging in' });
+    const token = signToken(user._id.toString());
+
+    return res.status(200).json({
+      message: 'Đăng nhập thành công',
+      token,
+      user: sanitizeUser(user),
+    });
+  } catch (err) {
+    return res.status(500).json({ message: 'Lỗi máy chủ', error: (err as Error).message });
   }
 };

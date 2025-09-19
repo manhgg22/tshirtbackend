@@ -1,12 +1,12 @@
 "use client"
 
 import type React from "react"
-import { Layout, Menu, Badge, Typography } from "antd"
+import { Layout, Menu, Badge, Typography, Button, Space, Dropdown, Avatar } from "antd"
 import { Link, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import type { RootState } from "../redux/store"
 import { logout } from "../redux/authSlice"
-import type { CartItem } from "../types"
+import type { CartItem, AuthState } from "../types"
 import {
   ShoppingCartOutlined,
   UserOutlined,
@@ -22,7 +22,7 @@ const { Text } = Typography
 const Header: React.FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { user } = useSelector((state: RootState) => state.auth)
+  const { user, isAuthenticated } = useSelector((state: RootState) => state.auth as AuthState)
   const cartItems = useSelector((state: RootState) => state.cart.items)
 
   const cartItemCount = cartItems.reduce((sum: number, item: CartItem) => sum + item.quantity, 0)
@@ -53,6 +53,21 @@ const Header: React.FC = () => {
         { key: "register", label: "Đăng ký", onClick: () => navigate("/register") },
       ]
 
+  const handleLogout = () => {
+    dispatch(logout())
+  }
+
+  const userMenu = (
+    <Menu>
+      <Menu.Item key="profile">
+        <Link to="/profile">Hồ sơ</Link>
+      </Menu.Item>
+      <Menu.Item key="logout" onClick={handleLogout} icon={<LogoutOutlined />}>
+        Đăng xuất
+      </Menu.Item>
+    </Menu>
+  )
+
   return (
     <AntHeader style={{ background: "#fff", padding: "0 24px", borderBottom: "1px solid #f0f0f0" }}>
       <div
@@ -75,6 +90,25 @@ const Header: React.FC = () => {
           items={[...menuItems, ...authMenuItems]}
           style={{ flex: 1, borderBottom: "none", justifyContent: "flex-end" }}
         />
+        <div className="right-section">
+          {isAuthenticated && user ? (
+            <Dropdown overlay={userMenu} placement="bottomRight">
+              <Space>
+                <Avatar icon={<UserOutlined />} />
+                <span style={{ color: "#fff" }}>{user.name}</span>
+              </Space>
+            </Dropdown>
+          ) : (
+            <Space>
+              <Link to="/login">
+                <Button type="primary">Đăng nhập</Button>
+              </Link>
+              <Link to="/register">
+                <Button>Đăng ký</Button>
+              </Link>
+            </Space>
+          )}
+        </div>
       </div>
     </AntHeader>
   )
