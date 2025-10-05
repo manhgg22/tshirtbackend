@@ -8,6 +8,7 @@
     "dev": "nodemon src/index.js",
     "dev:local": "cross-env DB_ENVIRONMENT=local nodemon src/index.js",
     "dev:atlas": "cross-env DB_ENVIRONMENT=atlas nodemon src/index.js",
+    "seed": "node src/seed/runSeed.js",
     "build": "echo \"No build step needed for JavaScript\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
