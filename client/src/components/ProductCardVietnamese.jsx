@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Card, Typography, Button, Image, Tooltip, Rate, Badge, Space } from "antd"
-import { ShoppingCartOutlined, HeartOutlined, EyeOutlined, StarFilled } from "@ant-design/icons"
+import { ShoppingCartOutlined, HeartOutlined, EyeOutlined, StarFilled, CrownOutlined } from "@ant-design/icons"
 
 const ProductCard = ({ product, onAddToCart }) => {
   const [isLiked, setIsLiked] = useState(false)
@@ -16,14 +16,16 @@ const ProductCard = ({ product, onAddToCart }) => {
   return (
     <Card
       hoverable
+      className="card-vietnamese"
       style={{ 
         width: "100%", 
-        borderRadius: 16, 
+        borderRadius: "var(--radius-md)", 
         overflow: "hidden",
-        border: "none",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+        border: "1px solid var(--light-gold)",
+        boxShadow: "var(--shadow-soft)",
         transition: "all 0.3s ease",
-        transform: isHovered ? "translateY(-8px)" : "translateY(0)",
+        transform: isHovered ? "translateY(-6px)" : "translateY(0)",
+        background: "var(--ivory-white)",
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -31,12 +33,12 @@ const ProductCard = ({ product, onAddToCart }) => {
         <div style={{ position: "relative", overflow: "hidden" }}>
           <Image
             alt={product.name}
-            src={product.image || `https://via.placeholder.com/300x300/dc2626/ffffff?text=${encodeURIComponent(product.name)}`}
+            src={product.image || `https://via.placeholder.com/300x300/A61C1C/FAF4E1?text=${encodeURIComponent(product.name)}`}
             style={{ 
               objectFit: "cover", 
-              height: 280,
+              height: 300,
               transition: "transform 0.3s ease",
-              transform: isHovered ? "scale(1.05)" : "scale(1)",
+              transform: isHovered ? "scale(1.03)" : "scale(1)",
             }}
             preview={false}
           />
@@ -44,11 +46,11 @@ const ProductCard = ({ product, onAddToCart }) => {
           {/* Overlay buttons */}
           <div style={{
             position: "absolute",
-            top: "12px",
-            right: "12px",
+            top: "var(--spacing-md)",
+            right: "var(--spacing-md)",
             display: "flex",
             flexDirection: "column",
-            gap: "8px",
+            gap: "var(--spacing-sm)",
             opacity: isHovered ? 1 : 0,
             transition: "opacity 0.3s ease",
           }}>
@@ -58,10 +60,11 @@ const ProductCard = ({ product, onAddToCart }) => {
                 shape="circle"
                 icon={<EyeOutlined />}
                 style={{
-                  background: "rgba(255,255,255,0.9)",
-                  border: "none",
-                  color: "#333",
+                  background: "var(--ivory-white)",
+                  border: "1px solid var(--light-gold)",
+                  color: "var(--mahogany-brown)",
                   backdropFilter: "blur(10px)",
+                  boxShadow: "var(--shadow-soft)",
                 }}
               />
             </Tooltip>
@@ -72,14 +75,42 @@ const ProductCard = ({ product, onAddToCart }) => {
                 icon={<HeartOutlined />}
                 onClick={() => setIsLiked(!isLiked)}
                 style={{
-                  background: isLiked ? "#ff4757" : "rgba(255,255,255,0.9)",
-                  border: "none",
-                  color: isLiked ? "#fff" : "#333",
+                  background: isLiked ? "var(--red-son)" : "var(--ivory-white)",
+                  border: "1px solid var(--light-gold)",
+                  color: isLiked ? "var(--ivory-white)" : "var(--mahogany-brown)",
                   backdropFilter: "blur(10px)",
+                  boxShadow: "var(--shadow-soft)",
                 }}
               />
             </Tooltip>
           </div>
+
+          {/* Premium badge */}
+          {product.premium && (
+            <Badge
+              count={
+                <div style={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  gap: "4px",
+                  background: "linear-gradient(45deg, var(--gold-copper), var(--light-gold))",
+                  color: "var(--charcoal)",
+                  padding: "4px 8px",
+                  borderRadius: "var(--radius-sm)",
+                  fontSize: "12px",
+                  fontWeight: "600",
+                }}>
+                  <CrownOutlined />
+                  Premium
+                </div>
+              }
+              style={{
+                position: "absolute",
+                top: "var(--spacing-md)",
+                left: "var(--spacing-md)",
+              }}
+            />
+          )}
 
           {/* Sale badge */}
           {product.sale && (
@@ -87,9 +118,10 @@ const ProductCard = ({ product, onAddToCart }) => {
               count={`-${product.sale}%`}
               style={{
                 position: "absolute",
-                top: "12px",
-                left: "12px",
-                background: "linear-gradient(45deg, #ff6b6b, #ffd93d)",
+                top: "var(--spacing-md)",
+                left: product.premium ? "80px" : "var(--spacing-md)",
+                background: "linear-gradient(45deg, var(--red-son), var(--deep-red))",
+                color: "var(--ivory-white)",
               }}
             />
           )}
@@ -97,31 +129,34 @@ const ProductCard = ({ product, onAddToCart }) => {
       }
       actions={[
         <Button
-          type="primary"
+          className="btn-vietnamese"
           icon={<ShoppingCartOutlined />}
           onClick={onAddToCart}
           style={{
-            background: "linear-gradient(45deg, #667eea, #764ba2)",
+            background: "linear-gradient(135deg, var(--gold-copper), var(--light-gold))",
             border: "none",
-            borderRadius: "8px",
-            height: "40px",
+            borderRadius: "var(--radius-md)",
+            height: "44px",
             fontWeight: "600",
             width: "100%",
+            color: "var(--charcoal)",
+            fontSize: "16px",
           }}
         >
           Thêm vào giỏ
         </Button>,
       ]}
     >
-      <div style={{ padding: "16px 0" }}>
+      <div style={{ padding: "var(--spacing-lg) 0" }}>
         {/* Category */}
         <Typography.Text 
-          type="secondary" 
+          className="text-traditional"
           style={{ 
             fontSize: "12px", 
             textTransform: "uppercase", 
             letterSpacing: "1px",
             fontWeight: "600",
+            color: "var(--mahogany-brown)",
           }}
         >
           {product.category}
@@ -130,11 +165,14 @@ const ProductCard = ({ product, onAddToCart }) => {
         {/* Product Name */}
         <Typography.Title 
           level={4} 
+          className="heading-vietnamese"
           style={{ 
-            margin: "8px 0 12px 0", 
-            fontSize: "16px",
+            margin: "var(--spacing-sm) 0 var(--spacing-md) 0", 
+            fontSize: "18px",
             fontWeight: "600",
             lineHeight: "1.4",
+            color: "var(--red-son)",
+            fontFamily: "var(--font-heading)",
           }}
         >
           {product.name}
@@ -144,37 +182,53 @@ const ProductCard = ({ product, onAddToCart }) => {
         <Typography.Paragraph 
           ellipsis={{ rows: 2 }} 
           style={{ 
-            color: "#666", 
+            color: "var(--medium-gray)", 
             fontSize: "14px",
-            marginBottom: "16px",
-            lineHeight: "1.5",
+            marginBottom: "var(--spacing-md)",
+            lineHeight: "1.6",
           }}
         >
           {product.description}
         </Typography.Paragraph>
 
         {/* Rating */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+        <div style={{ 
+          display: "flex", 
+          alignItems: "center", 
+          gap: "var(--spacing-sm)", 
+          marginBottom: "var(--spacing-md)" 
+        }}>
           <Rate 
             disabled 
             defaultValue={product.rating || 4.5} 
-            style={{ fontSize: "14px" }}
+            style={{ 
+              fontSize: "14px",
+              color: "var(--gold-copper)",
+            }}
           />
-          <Typography.Text type="secondary" style={{ fontSize: "12px" }}>
+          <Typography.Text 
+            className="text-traditional" 
+            style={{ fontSize: "12px", fontWeight: "500" }}
+          >
             ({product.reviewCount || 128})
           </Typography.Text>
         </div>
 
         {/* Price */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ 
+          display: "flex", 
+          alignItems: "center", 
+          justifyContent: "space-between" 
+        }}>
           <div>
             <Typography.Title 
               level={3} 
+              className="text-gold"
               style={{ 
                 margin: 0, 
-                color: "#2c3e50",
-                fontSize: "20px",
+                fontSize: "22px",
                 fontWeight: "700",
+                color: "var(--gold-copper)",
               }}
             >
               {formatPrice(product.price)}
@@ -182,8 +236,10 @@ const ProductCard = ({ product, onAddToCart }) => {
             {product.originalPrice && (
               <Typography.Text 
                 delete 
-                type="secondary" 
-                style={{ fontSize: "14px" }}
+                style={{ 
+                  fontSize: "14px", 
+                  color: "var(--medium-gray)",
+                }}
               >
                 {formatPrice(product.originalPrice)}
               </Typography.Text>
@@ -193,8 +249,12 @@ const ProductCard = ({ product, onAddToCart }) => {
           {/* Stock status */}
           <div style={{ textAlign: "right" }}>
             <Typography.Text 
-              type={product.inStock ? "success" : "danger"}
-              style={{ fontSize: "12px", fontWeight: "600" }}
+              className={product.inStock ? "text-jade" : "text-traditional"}
+              style={{ 
+                fontSize: "12px", 
+                fontWeight: "600",
+                color: product.inStock ? "var(--jade-green)" : "var(--red-son)",
+              }}
             >
               {product.inStock ? "Còn hàng" : "Hết hàng"}
             </Typography.Text>

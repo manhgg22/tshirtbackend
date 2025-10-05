@@ -1,6 +1,5 @@
-import React from "react"
-import { useEffect } from "react"
-import { Typography, Row, Col, Spin, Alert, Carousel, Card, Button, Divider, Space, Badge, Image } from "antd"
+import React, { useEffect, useState } from "react"
+import { Typography, Row, Col, Spin, Alert, Carousel, Card, Button, Divider, Space, Badge, Image, Statistic } from "antd"
 import {
   ShoppingCartOutlined,
   StarFilled,
@@ -8,6 +7,11 @@ import {
   TrophyOutlined,
   HeartOutlined,
   ThunderboltOutlined,
+  ArrowRightOutlined,
+  CheckCircleOutlined,
+  TruckOutlined,
+  SafetyOutlined,
+  CustomerServiceOutlined,
 } from "@ant-design/icons"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchProducts } from "../redux/productSlice"

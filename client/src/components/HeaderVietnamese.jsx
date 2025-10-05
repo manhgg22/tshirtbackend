@@ -13,6 +13,7 @@ import {
   MenuOutlined,
   HeartOutlined,
   SearchOutlined,
+  CrownOutlined,
 } from "@ant-design/icons"
 
 const { Header: AntHeader } = Layout
@@ -35,7 +36,7 @@ const Header = () => {
       key: "cart",
       label: (
         <Badge count={cartItemCount} size="small" offset={[5, -5]}>
-          <Text>Giỏ hàng</Text>
+          <Text style={{ color: "var(--ivory-white)" }}>Giỏ hàng</Text>
         </Badge>
       ),
       icon: <ShoppingCartOutlined />,
@@ -58,11 +59,16 @@ const Header = () => {
   }
 
   const userMenu = (
-    <Menu>
-      <Menu.Item key="profile">
-        <Link to="/profile">Hồ sơ</Link>
+    <Menu style={{ 
+      background: "var(--ivory-white)", 
+      border: "1px solid var(--light-gold)",
+      borderRadius: "var(--radius-md)",
+      boxShadow: "var(--shadow-medium)",
+    }}>
+      <Menu.Item key="profile" style={{ color: "var(--mahogany-brown)" }}>
+        <Link to="/profile" style={{ color: "var(--mahogany-brown)" }}>Hồ sơ</Link>
       </Menu.Item>
-      <Menu.Item key="logout" onClick={handleLogout} icon={<LogoutOutlined />}>
+      <Menu.Item key="logout" onClick={handleLogout} icon={<LogoutOutlined />} style={{ color: "var(--red-son)" }}>
         Đăng xuất
       </Menu.Item>
     </Menu>
@@ -77,13 +83,14 @@ const Header = () => {
     <>
       <AntHeader 
         style={{ 
-          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-          padding: "0 24px", 
+          background: "linear-gradient(135deg, var(--red-son) 0%, var(--deep-red) 100%)",
+          padding: "0 var(--spacing-lg)", 
           borderBottom: "none",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          boxShadow: "var(--shadow-medium)",
           position: "sticky",
           top: 0,
           zIndex: 1000,
+          height: "80px",
         }}
       >
         <div
@@ -101,28 +108,30 @@ const Header = () => {
             <Link 
               to="/" 
               style={{ 
-                color: "#fff", 
+                color: "var(--ivory-white)", 
                 fontSize: "28px", 
-                fontWeight: "bold", 
+                fontWeight: "700", 
                 textDecoration: "none",
                 display: "flex",
                 alignItems: "center",
-                gap: "8px",
+                gap: "var(--spacing-sm)",
+                fontFamily: "var(--font-heading)",
               }}
             >
+              <CrownOutlined style={{ color: "var(--gold-copper)", fontSize: "32px" }} />
               <span style={{ 
-                background: "linear-gradient(45deg, #ff6b6b, #ffd93d)",
+                background: "linear-gradient(45deg, var(--gold-copper), var(--light-gold))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
               }}>
-                🇻🇳 VN T-Shirts
+                VN T-Shirts
               </span>
             </Link>
           </div>
 
           {/* Desktop Menu */}
-          <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "var(--spacing-lg)" }}>
             <Menu
               mode="horizontal"
               selectedKeys={[window.location.pathname.split("/")[1] || "home"]}
@@ -130,8 +139,10 @@ const Header = () => {
               style={{ 
                 background: "transparent", 
                 borderBottom: "none", 
-                color: "#fff",
+                color: "var(--ivory-white)",
                 minWidth: "400px",
+                fontSize: "16px",
+                fontWeight: "500",
               }}
               theme="dark"
             />
@@ -140,20 +151,22 @@ const Header = () => {
             <div style={{ 
               display: "flex", 
               alignItems: "center", 
-              background: "rgba(255,255,255,0.1)", 
-              borderRadius: "20px", 
-              padding: "4px 12px",
+              background: "rgba(250, 244, 225, 0.1)", 
+              borderRadius: "var(--radius-xl)", 
+              padding: "var(--spacing-sm) var(--spacing-md)",
               backdropFilter: "blur(10px)",
+              border: "1px solid rgba(200, 155, 60, 0.2)",
             }}>
-              <SearchOutlined style={{ color: "#fff", marginRight: "8px" }} />
+              <SearchOutlined style={{ color: "var(--light-gold)", marginRight: "var(--spacing-sm)" }} />
               <input 
                 placeholder="Tìm kiếm sản phẩm..." 
                 style={{ 
                   background: "transparent", 
                   border: "none", 
                   outline: "none", 
-                  color: "#fff",
+                  color: "var(--ivory-white)",
                   width: "200px",
+                  fontSize: "14px",
                 }}
               />
             </div>
@@ -162,27 +175,30 @@ const Header = () => {
             <div className="right-section">
               {isAuthenticated && user ? (
                 <Dropdown overlay={userMenu} placement="bottomRight">
-                  <Space style={{ cursor: "pointer", color: "#fff" }}>
+                  <Space style={{ cursor: "pointer", color: "var(--ivory-white)" }}>
                     <Avatar 
                       style={{ 
-                        background: "linear-gradient(45deg, #ff6b6b, #ffd93d)",
-                        border: "2px solid rgba(255,255,255,0.3)",
+                        background: "linear-gradient(45deg, var(--gold-copper), var(--light-gold))",
+                        border: "2px solid var(--light-gold)",
                       }} 
                       icon={<UserOutlined />} 
                     />
-                    <span style={{ color: "#fff", marginLeft: 8 }}>{user.name}</span>
+                    <span style={{ color: "var(--ivory-white)", marginLeft: "var(--spacing-sm)", fontWeight: "500" }}>
+                      {user.name}
+                    </span>
                   </Space>
                 </Dropdown>
               ) : (
                 <Space>
                   <Link to="/login">
                     <Button 
-                      type="primary" 
+                      className="btn-vietnamese"
                       style={{ 
-                        background: "rgba(255,255,255,0.2)", 
-                        border: "1px solid rgba(255,255,255,0.3)",
-                        color: "#fff",
+                        background: "rgba(250, 244, 225, 0.1)", 
+                        border: "1px solid var(--light-gold)",
+                        color: "var(--ivory-white)",
                         backdropFilter: "blur(10px)",
+                        fontWeight: "600",
                       }}
                     >
                       Đăng nhập
@@ -190,11 +206,12 @@ const Header = () => {
                   </Link>
                   <Link to="/register">
                     <Button 
+                      className="btn-vietnamese-secondary"
                       style={{ 
-                        background: "rgba(255,255,255,0.1)", 
-                        border: "1px solid rgba(255,255,255,0.3)",
-                        color: "#fff",
-                        backdropFilter: "blur(10px)",
+                        background: "var(--gold-copper)", 
+                        border: "1px solid var(--gold-copper)",
+                        color: "var(--charcoal)",
+                        fontWeight: "600",
                       }}
                     >
                       Đăng ký
@@ -210,12 +227,11 @@ const Header = () => {
               icon={<MenuOutlined />}
               onClick={() => setMobileMenuVisible(true)}
               style={{ 
-                color: "#fff", 
+                color: "var(--ivory-white)", 
                 display: "none",
-                "@media (max-width: 768px)": {
-                  display: "block",
-                }
+                fontSize: "20px",
               }}
+              className="mobile-menu-btn"
             />
           </div>
         </div>
@@ -223,19 +239,61 @@ const Header = () => {
 
       {/* Mobile Drawer */}
       <Drawer
-        title="Menu"
+        title={
+          <div style={{ 
+            fontFamily: "var(--font-heading)", 
+            color: "var(--red-son)",
+            fontSize: "20px",
+            fontWeight: "600",
+          }}>
+            🇻🇳 VN T-Shirts
+          </div>
+        }
         placement="right"
         onClose={() => setMobileMenuVisible(false)}
         open={mobileMenuVisible}
         style={{ display: "none" }}
+        className="mobile-drawer"
+        styles={{
+          body: {
+            background: "var(--ivory-white)",
+          },
+          header: {
+            background: "var(--ivory-white)",
+            borderBottom: "1px solid var(--light-gold)",
+          }
+        }}
       >
         <Menu
           mode="vertical"
           selectedKeys={[window.location.pathname.split("/")[1] || "home"]}
           items={mobileMenuItems}
-          style={{ border: "none" }}
+          style={{ 
+            border: "none",
+            background: "transparent",
+          }}
         />
       </Drawer>
+
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .mobile-menu-btn {
+            display: block !important;
+          }
+          
+          .mobile-drawer {
+            display: block !important;
+          }
+          
+          .right-section {
+            display: none;
+          }
+          
+          .ant-menu-horizontal {
+            display: none;
+          }
+        }
+      `}</style>
     </>
   )
 }

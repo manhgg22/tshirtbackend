@@ -1,57 +1,214 @@
+/* Import Vietnamese Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* CSS Variables - Vietnamese Traditional Color Palette */
+:root {
+  /* Primary Colors - Traditional Vietnamese */
+  --red-son: #A61C1C;        /* Đỏ son - nhiệt huyết và truyền thống */
+  --gold-copper: #C89B3C;    /* Vàng đồng - thịnh vượng */
+  --jade-green: #2E8B57;     /* Xanh ngọc - thiên nhiên, yên bình */
+  --mahogany-brown: #5B3A29; /* Nâu gụ - chất liệu gỗ, hoài cổ */
+  --ivory-white: #FAF4E1;    /* Trắng ngà - nền nhẹ */
+  
+  /* Secondary Colors */
+  --deep-red: #8B1538;       /* Đỏ đậm */
+  --light-gold: #E6D7A8;    /* Vàng nhạt */
+  --sage-green: #87CEEB;     /* Xanh lá nhạt */
+  --warm-brown: #8B4513;     /* Nâu ấm */
+  --cream: #FFF8DC;         /* Kem */
+  
+  /* Neutral Colors */
+  --charcoal: #2C2C2C;       /* Than đen */
+  --soft-gray: #F5F5F5;     /* Xám nhẹ */
+  --medium-gray: #8B8B8B;    /* Xám vừa */
+  
+  /* Typography */
+  --font-heading: 'Be Vietnam Pro', serif;
+  --font-body: 'Inter', sans-serif;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  
+  /* Shadows */
+  --shadow-soft: 0 2px 8px rgba(166, 28, 28, 0.1);
+  --shadow-medium: 0 4px 16px rgba(166, 28, 28, 0.15);
+  --shadow-strong: 0 8px 32px rgba(166, 28, 28, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  color: var(--charcoal);
+  background-color: var(--ivory-white);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+/* Typography Classes */
+.heading-vietnamese {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--red-son);
+}
+
+.text-traditional {
+  color: var(--mahogany-brown);
+}
+
+.text-gold {
+  color: var(--gold-copper);
+}
+
+.text-jade {
+  color: var(--jade-green);
+}
+
+/* Vietnamese Traditional Component Styles */
+
+/* Container */
 .container {
-  padding: 20px;
+  padding: var(--spacing-lg);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+/* Vietnamese Traditional Buttons */
+.btn-vietnamese {
+  background: linear-gradient(135deg, var(--gold-copper), var(--light-gold));
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--charcoal);
+  font-weight: 600;
+  padding: var(--spacing-md) var(--spacing-lg);
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-vietnamese:hover {
+  background: linear-gradient(135deg, var(--red-son), var(--deep-red));
+  color: var(--ivory-white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.btn-vietnamese-secondary {
+  background: transparent;
+  border: 2px solid var(--mahogany-brown);
+  border-radius: var(--radius-md);
+  color: var(--mahogany-brown);
+  font-weight: 600;
+  padding: var(--spacing-md) var(--spacing-lg);
+  transition: all 0.3s ease;
+}
+
+.btn-vietnamese-secondary:hover {
+  background: var(--mahogany-brown);
+  color: var(--ivory-white);
+  transform: translateY(-2px);
+}
+
+/* Vietnamese Traditional Cards */
+.card-vietnamese {
+  background: var(--ivory-white);
+  border: 1px solid var(--light-gold);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card-vietnamese:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-medium);
+  border-color: var(--gold-copper);
+}
+
+/* Product Grid */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
 }
 
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+  }
+}
+
+/* Product Cards */
 .product-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  background: var(--ivory-white);
+  border: 1px solid var(--light-gold);
+  border-radius: var(--radius-md);
   overflow: hidden;
-  transition: transform 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-soft);
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-medium);
+  border-color: var(--gold-copper);
 }
 
 .product-image {
   width: 100%;
-  height: 200px;
+  height: 300px;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.03);
 }
 
 .product-info {
-  padding: 15px;
+  padding: var(--spacing-lg);
+  background: var(--ivory-white);
 }
 
+/* Cart Items */
 .cart-item {
   display: flex;
   align-items: center;
-  padding: 15px;
-  border-bottom: 1px solid #eee;
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 .cart-item-image {
   width: 80px;
   height: 80px;
   object-fit: cover;
-  margin-right: 15px;
+  margin-right: 16px;
+  border-radius: 8px;
 }
 
 .cart-item-info {
@@ -61,18 +218,138 @@ body {
 .quantity-controls {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
+/* Custom Design */
 .custom-design-preview {
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 20px 0;
+  border: 2px solid #e8e8e8;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 24px 0;
   text-align: center;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
 .custom-design-preview img {
   max-width: 100%;
   height: auto;
+  border-radius: 8px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .container {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+  
+  .product-card {
+    border-radius: 12px;
+  }
+  
+  .product-image {
+    height: 240px;
+  }
+  
+  .cart-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .cart-item-image {
+    margin-right: 0;
+    margin-bottom: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .product-image {
+    height: 200px;
+  }
+}
+
+/* Loading States */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Utility Classes */
+.text-gradient {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.shadow-soft {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-medium {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.shadow-strong {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.16);
 }
