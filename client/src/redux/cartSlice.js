@@ -10,6 +10,13 @@ const cartSlice = createSlice({
   reducers: {
     addItem: (state, action) => {
       const { product, design, quantity } = action.payload;
+      
+      // Validate product exists
+      if (!product || !product._id) {
+        console.error('Invalid product:', product);
+        return;
+      }
+      
       const existingItem = state.items.find(
         (item) =>
           item.productId === product._id &&
@@ -24,6 +31,9 @@ const cartSlice = createSlice({
           designId: design?._id,
           quantity,
           price: product.price,
+          name: product.name,
+          image: product.images?.[0]?.url || product.image,
+          category: product.category,
           product,
           design,
         });

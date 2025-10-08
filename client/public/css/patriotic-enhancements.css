@@ -1,0 +1,358 @@
+/* 🎨 PATRIOTIC ENHANCEMENTS CSS */
+/* Additional styles for the Vietnamese patriotic landing page */
+
+/* 🌟 Enhanced Animations */
+@keyframes patrioticGlow {
+    0%, 100% { 
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+        transform: scale(1.05);
+    }
+}
+
+@keyframes flagWave {
+    0% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(2deg) scale(1.02); }
+    50% { transform: rotate(0deg) scale(1); }
+    75% { transform: rotate(-2deg) scale(0.98); }
+    100% { transform: rotate(0deg) scale(1); }
+}
+
+@keyframes patrioticPulse {
+    0%, 100% { 
+        background: linear-gradient(45deg, var(--vietnam-red), var(--dark-red));
+    }
+    50% { 
+        background: linear-gradient(45deg, var(--dark-red), var(--vietnam-red));
+    }
+}
+
+/* 🏛️ Bronze Drum Pattern Separators */
+.bronze-drum-separator {
+    position: relative;
+    height: 100px;
+    background: var(--parchment);
+    overflow: hidden;
+}
+
+.bronze-drum-separator::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--vietnam-gold) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.3;
+}
+
+.bronze-drum-separator::after {
+    content: '🥁';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    opacity: 0.5;
+}
+
+/* 🗺️ Vietnam Map Background */
+.vietnam-map-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,20 L80,20 L80,80 L20,80 Z" fill="none" stroke="%23ffd700" stroke-width="2" opacity="0.3"/></svg>') center/cover;
+    opacity: 0.1;
+    z-index: -1;
+}
+
+/* 🔥 Fire Effect Enhancement */
+.fire-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #ff4500;
+    border-radius: 50%;
+    animation: fireRise 3s linear infinite;
+}
+
+@keyframes fireRise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) scale(0);
+        opacity: 0;
+    }
+}
+
+/* 🌟 Star Field Background */
+.star-field {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -2;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--vietnam-gold);
+    border-radius: 50%;
+    animation: twinkle 2s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* 🎭 Enhanced Hover Effects */
+.enhanced-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.enhanced-hover:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    filter: brightness(1.1);
+}
+
+/* 🎨 Gradient Text Effects */
+.gradient-text {
+    background: linear-gradient(45deg, var(--vietnam-red), var(--vietnam-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 🌊 Wave Animation for Hero */
+.hero-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,589,72c81.37,18.39,167.3,12.19,248-8.45,79.9-20.4,153.8-58.2,223.2-87.63,69.4-29.4,134.3-49.4,209.8-49.4V0Z" fill="%23ffd700" opacity="0.3"/></svg>') repeat-x;
+    animation: waveMove 10s linear infinite;
+}
+
+@keyframes waveMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-1200px); }
+}
+
+/* 🎯 Enhanced Button Styles */
+.patriotic-button {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(45deg, var(--vietnam-gold), #ffed4e);
+    color: var(--vietnam-red);
+    border: 2px solid var(--vietnam-red);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.patriotic-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.patriotic-button:hover::before {
+    left: 100%;
+}
+
+.patriotic-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+}
+
+/* 🏆 Medal Animation */
+.medal {
+    display: inline-block;
+    animation: medalSpin 4s linear infinite;
+}
+
+@keyframes medalSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 🌸 Lotus Petal Animation */
+.lotus-petal {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--vietnam-gold);
+    border-radius: 50% 0 50% 0;
+    animation: petalFall 8s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes petalFall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* 🎨 Enhanced Card Styles */
+.patriotic-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(251,238,193,0.8));
+    border: 2px solid var(--vietnam-gold);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.patriotic-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--vietnam-red), var(--vietnam-gold), var(--vietnam-red));
+}
+
+.patriotic-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    border-color: var(--vietnam-red);
+}
+
+/* 🎭 Enhanced Typography */
+.patriotic-heading {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.patriotic-heading::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--vietnam-gold);
+    border-radius: 2px;
+}
+
+/* 🌟 Enhanced Scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--parchment);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, var(--vietnam-red), var(--vietnam-gold));
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, var(--dark-red), var(--vietnam-gold));
+}
+
+/* 🎨 Enhanced Focus States */
+.patriotic-focus:focus {
+    outline: 3px solid var(--vietnam-gold);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+}
+
+/* 🌈 Enhanced Selection */
+::selection {
+    background: var(--vietnam-gold);
+    color: var(--vietnam-red);
+}
+
+::-moz-selection {
+    background: var(--vietnam-gold);
+    color: var(--vietnam-red);
+}
+
+/* 🎯 Enhanced Loading States */
+.loading-shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* 🎨 Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
+    .patriotic-card {
+        margin: 1rem 0;
+    }
+    
+    .enhanced-hover:hover {
+        transform: translateY(-5px) scale(1.01);
+    }
+    
+    .bronze-drum-separator {
+        height: 60px;
+    }
+}
+
+/* 🎭 Enhanced Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* 🌟 Enhanced Print Styles */
+@media print {
+    .hero, .fire-particle, .star-field {
+        display: none;
+    }
+    
+    .patriotic-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+}

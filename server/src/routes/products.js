@@ -3,7 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as productController from '../controllers/products.js';
-import { protect } from '../middlewares/auth.js';
+import { protect, authorize } from '../middlewares/auth.js';
 
 const router = express.Router();
 
@@ -21,8 +21,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.post('/', protect, upload.single('image'), productController.createProduct);
+// Public routes
 router.get('/', productController.getProducts);
 router.get('/:id', productController.getProduct);
+
+// Protected routes (Admin only)
+router.post('/', protect, authorize('admin'), upload.array('images', 5), productController.createProduct);
+router.put('/:id', protect, authorize('admin'), productController.updateProduct);
+router.delete('/:id', protect, authorize('admin'), productController.deleteProduct);
 
 export default router;

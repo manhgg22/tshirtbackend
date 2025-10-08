@@ -1,16 +1,37 @@
 import React, { useState } from "react"
 import { Card, Typography, Button, Image, Tooltip, Rate, Badge, Space } from "antd"
 import { ShoppingCartOutlined, HeartOutlined, EyeOutlined, StarFilled } from "@ant-design/icons"
+import { useNavigate } from "react-router-dom"
 
 const ProductCard = ({ product, onAddToCart }) => {
+  const navigate = useNavigate()
   const [isLiked, setIsLiked] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  
+  // Debug image URL - handle both mock data (product.image) and API data (product.images[0].url)
+  const imageUrl = product.images?.[0]?.url 
+    ? `http://localhost:3000${product.images[0].url}` 
+    : (product.image 
+      ? `http://localhost:3000${product.image}` 
+      : '/images/placeholder.png')
+  
+  console.log('🖼️ ProductCard Debug:', {
+    productName: product.name,
+    productImages: product.images,
+    productImage: product.image,
+    imageUrl: imageUrl,
+    finalSrc: imageUrl
+  })
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
       currency: 'VND'
     }).format(price)
+  }
+
+  const handleCardClick = () => {
+    navigate(`/products/${product._id}`)
   }
 
   return (
@@ -31,7 +52,7 @@ const ProductCard = ({ product, onAddToCart }) => {
         <div style={{ position: "relative", overflow: "hidden" }}>
           <Image
             alt={product.name}
-            src={product.image || `https://via.placeholder.com/300x300/dc2626/ffffff?text=${encodeURIComponent(product.name)}`}
+            src={imageUrl}
             style={{ 
               objectFit: "cover", 
               height: 280,
@@ -39,6 +60,41 @@ const ProductCard = ({ product, onAddToCart }) => {
               transform: isHovered ? "scale(1.05)" : "scale(1)",
             }}
             preview={false}
+            onClick={handleCardClick}
+            onError={(e) => {
+              console.error('🖼️ Image load error:', {
+                productName: product.name,
+                imageSrc: e.target.src,
+                productImages: product.images,
+                fallbackSrc: product.image
+              });
+              // Fallback to a simple div with product name
+              e.target.style.display = 'none';
+              const parent = e.target.parentElement;
+              if (parent && !parent.querySelector('.image-fallback')) {
+                const fallback = document.createElement('div');
+                fallback.className = 'image-fallback';
+                fallback.style.cssText = `
+                  height: 280px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+                  color: #666;
+                  font-size: 14px;
+                  text-align: center;
+                  padding: 20px;
+                `;
+                fallback.textContent = product.name;
+                parent.appendChild(fallback);
+              }
+            }}
+            onLoad={() => {
+              console.log('🖼️ Image loaded successfully:', {
+                productName: product.name,
+                imageSrc: product.images?.[0]?.url || product.image
+              });
+            }}
           />
           
           {/* Overlay buttons */}
@@ -57,11 +113,15 @@ const ProductCard = ({ product, onAddToCart }) => {
                 type="primary"
                 shape="circle"
                 icon={<EyeOutlined />}
-                style={{
-                  background: "rgba(255,255,255,0.9)",
+                size="small"
+                style={{ 
+                  backgroundColor: "rgba(255,255,255,0.9)",
                   border: "none",
-                  color: "#333",
-                  backdropFilter: "blur(10px)",
+                  color: "#A61C1C"
+                }}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  navigate(`/products/${product._id}`)
                 }}
               />
             </Tooltip>
@@ -70,136 +130,178 @@ const ProductCard = ({ product, onAddToCart }) => {
                 type="primary"
                 shape="circle"
                 icon={<HeartOutlined />}
-                onClick={() => setIsLiked(!isLiked)}
-                style={{
-                  background: isLiked ? "#ff4757" : "rgba(255,255,255,0.9)",
+                size="small"
+                style={{ 
+                  backgroundColor: isLiked ? "#A61C1C" : "rgba(255,255,255,0.9)",
                   border: "none",
-                  color: isLiked ? "#fff" : "#333",
-                  backdropFilter: "blur(10px)",
+                  color: isLiked ? "white" : "#A61C1C"
+                }}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setIsLiked(!isLiked)
                 }}
               />
             </Tooltip>
           </div>
 
-          {/* Sale badge */}
-          {product.sale && (
-            <Badge
-              count={`-${product.sale}%`}
-              style={{
-                position: "absolute",
-                top: "12px",
-                left: "12px",
-                background: "linear-gradient(45deg, #ff6b6b, #ffd93d)",
-              }}
-            />
-          )}
+          {/* Badges */}
+          <div style={{
+            position: "absolute",
+            top: "12px",
+            left: "12px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "4px",
+          }}>
+            {product.isFeatured && (
+              <Badge 
+                count="Nổi bật" 
+                style={{ 
+                  backgroundColor: "#C89B3C",
+                  fontSize: "10px",
+                  height: "20px",
+                  lineHeight: "20px"
+                }} 
+              />
+            )}
+            {product.originalPrice && product.originalPrice > product.price && (
+              <Badge 
+                count={`-${Math.round((1 - product.price / product.originalPrice) * 100)}%`}
+                style={{ 
+                  backgroundColor: "#A61C1C",
+                  fontSize: "10px",
+                  height: "20px",
+                  lineHeight: "20px"
+                }} 
+              />
+            )}
+          </div>
         </div>
       }
       actions={[
         <Button
           type="primary"
           icon={<ShoppingCartOutlined />}
-          onClick={onAddToCart}
+          onClick={(e) => {
+            e.stopPropagation()
+            onAddToCart(product)
+          }}
+          disabled={!product.inStock}
           style={{
-            background: "linear-gradient(45deg, #667eea, #764ba2)",
+            backgroundColor: "#A61C1C",
             border: "none",
             borderRadius: "8px",
             height: "40px",
-            fontWeight: "600",
-            width: "100%",
+            fontWeight: "600"
           }}
         >
-          Thêm vào giỏ
-        </Button>,
+          {product.inStock ? "Thêm vào giỏ" : "Hết hàng"}
+        </Button>
       ]}
     >
-      <div style={{ padding: "16px 0" }}>
-        {/* Category */}
-        <Typography.Text 
-          type="secondary" 
-          style={{ 
-            fontSize: "12px", 
-            textTransform: "uppercase", 
-            letterSpacing: "1px",
-            fontWeight: "600",
-          }}
-        >
-          {product.category}
-        </Typography.Text>
-
+      <div style={{ padding: "0 4px" }}>
         {/* Product Name */}
-        <Typography.Title 
-          level={4} 
-          style={{ 
-            margin: "8px 0 12px 0", 
+        <Typography.Title
+          level={5}
+          style={{
+            margin: "0 0 8px 0",
             fontSize: "16px",
             fontWeight: "600",
+            color: "#2C2C2C",
             lineHeight: "1.4",
+            height: "44px",
+            overflow: "hidden",
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            cursor: "pointer"
           }}
+          onClick={handleCardClick}
         >
           {product.name}
         </Typography.Title>
 
-        {/* Description */}
-        <Typography.Paragraph 
-          ellipsis={{ rows: 2 }} 
-          style={{ 
-            color: "#666", 
-            fontSize: "14px",
-            marginBottom: "16px",
-            lineHeight: "1.5",
-          }}
-        >
-          {product.description}
-        </Typography.Paragraph>
-
         {/* Rating */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
-          <Rate 
-            disabled 
-            defaultValue={product.rating || 4.5} 
-            style={{ fontSize: "14px" }}
-          />
-          <Typography.Text type="secondary" style={{ fontSize: "12px" }}>
-            ({product.reviewCount || 128})
-          </Typography.Text>
+        <div style={{ marginBottom: "12px" }}>
+          <Space size="small">
+            <Rate 
+              disabled 
+              value={product.rating?.average || 0} 
+              allowHalf 
+              style={{ fontSize: "14px" }}
+            />
+            <Typography.Text 
+              type="secondary" 
+              style={{ fontSize: "12px" }}
+            >
+              ({product.rating?.count || 0})
+            </Typography.Text>
+          </Space>
         </div>
 
         {/* Price */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div>
-            <Typography.Title 
-              level={3} 
-              style={{ 
-                margin: 0, 
-                color: "#2c3e50",
-                fontSize: "20px",
-                fontWeight: "700",
+        <div style={{ marginBottom: "8px" }}>
+          <Space direction="vertical" size="small" style={{ width: "100%" }}>
+            <Typography.Text
+              strong
+              style={{
+                fontSize: "18px",
+                color: "#A61C1C",
+                fontWeight: "700"
               }}
             >
               {formatPrice(product.price)}
-            </Typography.Title>
-            {product.originalPrice && (
-              <Typography.Text 
-                delete 
-                type="secondary" 
+            </Typography.Text>
+            {product.originalPrice && product.originalPrice > product.price && (
+              <Typography.Text
+                delete
+                type="secondary"
                 style={{ fontSize: "14px" }}
               >
                 {formatPrice(product.originalPrice)}
               </Typography.Text>
             )}
-          </div>
-          
-          {/* Stock status */}
-          <div style={{ textAlign: "right" }}>
-            <Typography.Text 
-              type={product.inStock ? "success" : "danger"}
-              style={{ fontSize: "12px", fontWeight: "600" }}
-            >
-              {product.inStock ? "Còn hàng" : "Hết hàng"}
-            </Typography.Text>
-          </div>
+          </Space>
         </div>
+
+        {/* Stock Status */}
+        <div style={{ marginTop: "8px" }}>
+          {product.inStock ? (
+            <Typography.Text type="success" style={{ fontSize: "12px" }}>
+              ✓ Còn hàng ({product.stock || 0} sản phẩm)
+            </Typography.Text>
+          ) : (
+            <Typography.Text type="danger" style={{ fontSize: "12px" }}>
+              ✗ Hết hàng
+            </Typography.Text>
+          )}
+        </div>
+
+        {/* Tags */}
+        {product.tags && product.tags.length > 0 && (
+          <div style={{ marginTop: "8px" }}>
+            <Space size="small" wrap>
+              {product.tags.slice(0, 2).map(tag => (
+                <Badge 
+                  key={tag}
+                  count={tag}
+                  style={{ 
+                    backgroundColor: "#f0f0f0",
+                    color: "#666",
+                    fontSize: "10px",
+                    height: "18px",
+                    lineHeight: "18px"
+                  }} 
+                />
+              ))}
+              {product.tags.length > 2 && (
+                <Typography.Text type="secondary" style={{ fontSize: "10px" }}>
+                  +{product.tags.length - 2}
+                </Typography.Text>
+              )}
+            </Space>
+          </div>
+        )}
       </div>
     </Card>
   )

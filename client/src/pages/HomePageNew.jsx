@@ -131,7 +131,7 @@ const HomePage = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          background: "url('https://via.placeholder.com/1920x1080/667eea/ffffff?text=Pattern')",
+          background: "url('/images/tshirt-left.png')",
           opacity: 0.1,
           backgroundSize: "cover",
         }} />
@@ -265,7 +265,7 @@ const HomePage = () => {
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
           <div style={{ textAlign: "center", marginBottom: "60px" }}>
             <Title level={2} style={{ marginBottom: "16px" }}>
-              Tại sao chọn VN T-Shirts?
+              Tại sao chọn Inkverse?
             </Title>
             <Paragraph style={{ fontSize: "18px", color: "#666", maxWidth: "600px", margin: "0 auto" }}>
               Chúng tôi cam kết mang đến những sản phẩm chất lượng cao với dịch vụ tốt nhất
@@ -346,7 +346,7 @@ const HomePage = () => {
           </div>
 
           <Row gutter={[24, 24]}>
-            {products.slice(0, 8).map((product) => (
+            {Array.isArray(products) && products.slice(0, 8).map((product) => (
               <Col xs={24} sm={12} md={8} lg={6} key={product._id}>
                 <ProductCard product={product} onAddToCart={() => handleAddToCart(product)} />
               </Col>

@@ -25,7 +25,7 @@ const FooterVietnamese = () => {
       style={{
         background: `linear-gradient(135deg, var(--mahogany-brown) 0%, var(--warm-brown) 100%)`,
         color: "var(--ivory-white)",
-        padding: "60px 0 20px",
+        padding: "var(--spacing-section) 0 var(--spacing-lg)",
         marginTop: "auto",
         position: "relative",
         overflow: "hidden",
@@ -42,7 +42,7 @@ const FooterVietnamese = () => {
         opacity: 0.2,
       }} />
 
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 var(--spacing-lg)", position: "relative", zIndex: 1 }}>
+      <div className="container-standard" style={{ position: "relative", zIndex: 1 }}>
         <Row gutter={[32, 32]}>
           {/* Company Info */}
           <Col xs={24} sm={12} md={6}>
@@ -59,7 +59,7 @@ const FooterVietnamese = () => {
                   margin: 0,
                   fontFamily: "var(--font-heading)",
                 }}>
-                  VN T-Shirts
+                  Inkverse
                 </Title>
               </div>
               <Paragraph style={{ 
@@ -332,7 +332,7 @@ const FooterVietnamese = () => {
         <Row justify="space-between" align="middle">
           <Col xs={24} sm={12}>
             <Text style={{ color: "rgba(250, 244, 225, 0.8)", fontSize: "14px" }}>
-              © 2024 VN T-Shirts. Tất cả quyền được bảo lưu.
+              © 2024 Inkverse. Tất cả quyền được bảo lưu.
             </Text>
           </Col>
           <Col xs={24} sm={12} style={{ textAlign: "right" }}>

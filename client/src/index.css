@@ -1,5 +1,5 @@
 /* Import Vietnamese Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Noto+Serif:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* CSS Variables - Vietnamese Traditional Color Palette */
 :root {
@@ -33,6 +33,8 @@
   --spacing-lg: 24px;
   --spacing-xl: 32px;
   --spacing-xxl: 48px;
+  --spacing-section: 80px;
+  --spacing-hero: 100px;
   
   /* Border Radius */
   --radius-sm: 6px;
@@ -188,7 +190,7 @@ html {
 
 .product-info {
   padding: var(--spacing-lg);
-  background: var(--ivory-white);
+  background: var(--ivory-cream);
 }
 
 /* Cart Items */
@@ -352,4 +354,47 @@ html {
 
 .shadow-strong {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.16);
+}
+
+/* Spacing Utility Classes */
+.p-xs { padding: var(--spacing-xs); }
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
+.p-xl { padding: var(--spacing-xl); }
+.p-xxl { padding: var(--spacing-xxl); }
+.p-section { padding: var(--spacing-section); }
+
+.m-xs { margin: var(--spacing-xs); }
+.m-sm { margin: var(--spacing-sm); }
+.m-md { margin: var(--spacing-md); }
+.m-lg { margin: var(--spacing-lg); }
+.m-xl { margin: var(--spacing-xl); }
+.m-xxl { margin: var(--spacing-xxl); }
+.m-section { margin: var(--spacing-section); }
+
+.gap-xs { gap: var(--spacing-xs); }
+.gap-sm { gap: var(--spacing-sm); }
+.gap-md { gap: var(--spacing-md); }
+.gap-lg { gap: var(--spacing-lg); }
+.gap-xl { gap: var(--spacing-xl); }
+.gap-xxl { gap: var(--spacing-xxl); }
+
+/* Container Classes */
+.container-standard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.container-wide {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.container-narrow {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
 }

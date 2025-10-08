@@ -51,7 +51,18 @@ const productSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.products = action.payload;
+        console.log('📦 API Response:', action.payload);
+        // Handle both old format (array) and new format (object with data.products)
+        if (Array.isArray(action.payload)) {
+          state.products = action.payload;
+        } else if (action.payload?.data?.products) {
+          state.products = action.payload.data.products;
+        } else if (action.payload?.products) {
+          state.products = action.payload.products;
+        } else {
+          state.products = [];
+        }
+        console.log('✅ Products set:', state.products.length, 'items');
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;

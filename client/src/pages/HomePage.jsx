@@ -12,8 +12,10 @@ import {
   TruckOutlined,
   SafetyOutlined,
   CustomerServiceOutlined,
+  EyeOutlined,
 } from "@ant-design/icons"
 import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import { fetchProducts } from "../redux/productSlice"
 import { addItem } from "../redux/cartSlice"
 import ProductCard from "../components/ProductCard"
@@ -27,10 +29,18 @@ const featuredProducts = [
     _id: "1",
     name: "Áo thun Tự hào Việt Nam",
     price: 299000,
-    image: "/images/aothuntest/aothun1.webp",
+    originalPrice: 399000,
+    images: [
+      {
+        url: "/images/aothuntest/aothun1.webp",
+        alt: "Áo thun Tự hào Việt Nam",
+        isPrimary: true,
+      },
+    ],
+    image: "/images/aothuntest/aothun1.webp", // Fallback for compatibility
     description: "Áo thun cotton cao cấp với thiết kế cờ đỏ sao vàng hiện đại",
-    category: "T-Shirt",
-    rating: 4.8,
+    category: { name: "T-Shirt", _id: "cat1" },
+    rating: { average: 4.8, count: 1250 },
     sold: 1250,
     inStock: true,
   },
@@ -38,10 +48,18 @@ const featuredProducts = [
     _id: "2",
     name: "Áo polo Hà Nội phố cổ",
     price: 450000,
+    originalPrice: 550000,
+    images: [
+      {
+        url: "/images/aothuntest/aothun2.webp",
+        alt: "Áo polo Hà Nội phố cổ",
+        isPrimary: true,
+      },
+    ],
     image: "/images/aothuntest/aothun2.webp",
     description: "Polo premium in hình phố cổ Hà Nội vintage",
-    category: "Polo",
-    rating: 4.9,
+    category: { name: "Polo", _id: "cat2" },
+    rating: { average: 4.9, count: 890 },
     sold: 890,
     inStock: true,
   },
@@ -49,10 +67,12 @@ const featuredProducts = [
     _id: "3",
     name: "Hoodie Sài Gòn về đêm",
     price: 599000,
+    originalPrice: 699000,
+    images: [{ url: "/images/aothuntest/aothun3.webp", alt: "Hoodie Sài Gòn về đêm", isPrimary: true }],
     image: "/images/aothuntest/aothun3.webp",
     description: "Hoodie unisex với họa tiết skyline Sài Gòn lung linh",
-    category: "Hoodie",
-    rating: 4.7,
+    category: { name: "Hoodie", _id: "cat3" },
+    rating: { average: 4.7, count: 675 },
     sold: 675,
     inStock: true,
   },
@@ -60,10 +80,12 @@ const featuredProducts = [
     _id: "4",
     name: "Áo tank top Hạ Long Bay",
     price: 199000,
+    originalPrice: 249000,
+    images: [{ url: "/images/aothuntest/aothun4.webp", alt: "Áo tank top Hạ Long Bay", isPrimary: true }],
     image: "/images/aothuntest/aothun4.webp",
     description: "Tank top thể thao với art vịnh Hạ Long tuyệt đẹp",
-    category: "Tank Top",
-    rating: 4.6,
+    category: { name: "Tank Top", _id: "cat4" },
+    rating: { average: 4.6, count: 432 },
     sold: 432,
     inStock: true,
   },
@@ -71,10 +93,12 @@ const featuredProducts = [
     _id: "5",
     name: "Áo thun Phở Việt Nam",
     price: 279000,
+    originalPrice: 329000,
+    images: [{ url: "/images/aothuntest/aothun5.webp", alt: "Áo thun Phở Việt Nam", isPrimary: true }],
     image: "/images/aothuntest/aothun5.webp",
     description: "Design độc đáo về món phở truyền thống Việt Nam",
-    category: "T-Shirt",
-    rating: 4.8,
+    category: { name: "T-Shirt", _id: "cat5" },
+    rating: { average: 4.8, count: 1100 },
     sold: 1100,
     inStock: true,
   },
@@ -82,10 +106,12 @@ const featuredProducts = [
     _id: "6",
     name: "Áo sweatshirt Cà phê Việt",
     price: 520000,
+    originalPrice: 620000,
+    images: [{ url: "/images/aothuntest/aothun6.webp", alt: "Áo sweatshirt Cà phê Việt", isPrimary: true }],
     image: "/images/aothuntest/aothun6.webp",
     description: "Sweatshirt cao cấp tribute to Vietnamese coffee culture",
-    category: "Sweatshirt",
-    rating: 4.9,
+    category: { name: "Sweatshirt", _id: "cat6" },
+    rating: { average: 4.9, count: 756 },
     sold: 756,
     inStock: true,
   },
@@ -93,11 +119,26 @@ const featuredProducts = [
 
 const HomePage = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { products, loading, error } = useSelector((state) => state.products)
 
   useEffect(() => {
     dispatch(fetchProducts())
   }, [dispatch])
+
+  const handleAddToCart = (product) => {
+    console.log('🛒 Adding to cart:', product)
+    try {
+      dispatch(addItem({ product, quantity: 1 }))
+      console.log('✅ Successfully dispatched addItem')
+    } catch (error) {
+      console.error('❌ Error adding to cart:', error)
+    }
+  }
+
+  const handleViewDetails = (product) => {
+    navigate(`/products/${product._id}`)
+  }
 
   const carouselContentStyle = {
     height: "500px",
@@ -393,16 +434,29 @@ const HomePage = () => {
                           }}
                         >
                           <StarFilled style={{ color: "#FFD700", fontSize: 12, marginRight: 4 }} />
-                          <Text style={{ fontSize: 12, fontWeight: "bold" }}>{product.rating}</Text>
+                          <Text style={{ fontSize: 12, fontWeight: "bold" }}>{product.rating?.average || product.rating}</Text>
                         </div>
                       </div>
                     }
                     actions={[
                       <Button
+                        key="viewDetails"
+                        type="default"
+                        icon={<EyeOutlined />}
+                        onClick={() => handleViewDetails(product)}
+                        style={{
+                          borderColor: "#1890ff",
+                          color: "#1890ff",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Xem chi tiết
+                      </Button>,
+                      <Button
                         key="addToCart"
                         type="primary"
                         icon={<ShoppingCartOutlined />}
-                        onClick={() => dispatch(addItem({ product, quantity: 1 }))}
+                        onClick={() => handleAddToCart(product)}
                         style={{
                           background: "#E4002B",
                           borderColor: "#E4002B",
@@ -440,7 +494,7 @@ const HomePage = () => {
                             }}
                           >
                             <Text style={{ fontSize: 12, color: "#999" }}>Đã bán: {product.sold}</Text>
-                            <Badge count={product.category} style={{ backgroundColor: "#f0f0f0", color: "#666" }} />
+                            <Badge count={product.category?.name || product.category} style={{ backgroundColor: "#f0f0f0", color: "#666" }} />
                           </div>
                         </div>
                       }
@@ -462,7 +516,7 @@ const HomePage = () => {
               <Col xs={24} sm={12} md={8} lg={6} key={product._id}>
                 <ProductCard
                   product={product}
-                  onAddToCart={() => dispatch(addItem({ product, quantity: 1 }))}
+                  onAddToCart={() => handleAddToCart(product)}
                 />
               </Col>
             ))}

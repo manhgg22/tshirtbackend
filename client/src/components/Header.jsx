@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { Layout, Menu, Badge, Typography, Button, Space, Dropdown, Avatar, Drawer } from "antd"
+import React from "react"
+import { Layout, Menu, Badge, Typography, Button, Space, Dropdown, Avatar } from "antd"
 import { Link, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { logout } from "../redux/authSlice"
@@ -10,9 +10,6 @@ import {
   ShopOutlined,
   PlusCircleOutlined,
   HomeOutlined,
-  MenuOutlined,
-  HeartOutlined,
-  SearchOutlined,
 } from "@ant-design/icons"
 
 const { Header: AntHeader } = Layout
@@ -23,7 +20,6 @@ const Header = () => {
   const navigate = useNavigate()
   const { user, isAuthenticated } = useSelector((state) => state.auth)
   const cartItems = useSelector((state) => state.cart.items)
-  const [mobileMenuVisible, setMobileMenuVisible] = useState(false)
 
   const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 
@@ -68,175 +64,49 @@ const Header = () => {
     </Menu>
   )
 
-  const mobileMenuItems = [
-    ...menuItems,
-    ...authMenuItems,
-  ]
-
   return (
-    <>
-      <AntHeader 
-        style={{ 
-          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-          padding: "0 24px", 
-          borderBottom: "none",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-          position: "sticky",
-          top: 0,
-          zIndex: 1000,
+    <AntHeader style={{ background: "#fff", padding: "0 24px", borderBottom: "1px solid #f0f0f0" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          maxWidth: 1200,
+          margin: "0 auto",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            maxWidth: 1200,
-            margin: "0 auto",
-            height: "100%",
-          }}
-        >
-          {/* Logo */}
-          <div className="logo">
-            <Link 
-              to="/" 
-              style={{ 
-                color: "#fff", 
-                fontSize: "28px", 
-                fontWeight: "bold", 
-                textDecoration: "none",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-              }}
-            >
-              <span style={{ 
-                background: "linear-gradient(45deg, #ff6b6b, #ffd93d)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}>
-                🇻🇳 VN T-Shirts
-              </span>
-            </Link>
-          </div>
-
-          {/* Desktop Menu */}
-          <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
-            <Menu
-              mode="horizontal"
-              selectedKeys={[window.location.pathname.split("/")[1] || "home"]}
-              items={menuItems}
-              style={{ 
-                background: "transparent", 
-                borderBottom: "none", 
-                color: "#fff",
-                minWidth: "400px",
-              }}
-              theme="dark"
-            />
-            
-            {/* Search Bar */}
-            <div style={{ 
-              display: "flex", 
-              alignItems: "center", 
-              background: "rgba(255,255,255,0.1)", 
-              borderRadius: "20px", 
-              padding: "4px 12px",
-              backdropFilter: "blur(10px)",
-            }}>
-              <SearchOutlined style={{ color: "#fff", marginRight: "8px" }} />
-              <input 
-                placeholder="Tìm kiếm sản phẩm..." 
-                style={{ 
-                  background: "transparent", 
-                  border: "none", 
-                  outline: "none", 
-                  color: "#fff",
-                  width: "200px",
-                }}
-              />
-            </div>
-
-            {/* Auth Section */}
-            <div className="right-section">
-              {isAuthenticated && user ? (
-                <Dropdown overlay={userMenu} placement="bottomRight">
-                  <Space style={{ cursor: "pointer", color: "#fff" }}>
-                    <Avatar 
-                      style={{ 
-                        background: "linear-gradient(45deg, #ff6b6b, #ffd93d)",
-                        border: "2px solid rgba(255,255,255,0.3)",
-                      }} 
-                      icon={<UserOutlined />} 
-                    />
-                    <span style={{ color: "#fff", marginLeft: 8 }}>{user.name}</span>
-                  </Space>
-                </Dropdown>
-              ) : (
-                <Space>
-                  <Link to="/login">
-                    <Button 
-                      type="primary" 
-                      style={{ 
-                        background: "rgba(255,255,255,0.2)", 
-                        border: "1px solid rgba(255,255,255,0.3)",
-                        color: "#fff",
-                        backdropFilter: "blur(10px)",
-                      }}
-                    >
-                      Đăng nhập
-                    </Button>
-                  </Link>
-                  <Link to="/register">
-                    <Button 
-                      style={{ 
-                        background: "rgba(255,255,255,0.1)", 
-                        border: "1px solid rgba(255,255,255,0.3)",
-                        color: "#fff",
-                        backdropFilter: "blur(10px)",
-                      }}
-                    >
-                      Đăng ký
-                    </Button>
-                  </Link>
-                </Space>
-              )}
-            </div>
-
-            {/* Mobile Menu Button */}
-            <Button
-              type="text"
-              icon={<MenuOutlined />}
-              onClick={() => setMobileMenuVisible(true)}
-              style={{ 
-                color: "#fff", 
-                display: "none",
-                "@media (max-width: 768px)": {
-                  display: "block",
-                }
-              }}
-            />
-          </div>
+        <div className="logo">
+          <Link to="/" style={{ color: "#E4002B", fontSize: "28px", fontWeight: "bold", textDecoration: "none" }}>
+            Inkverse
+          </Link>
         </div>
-      </AntHeader>
-
-      {/* Mobile Drawer */}
-      <Drawer
-        title="Menu"
-        placement="right"
-        onClose={() => setMobileMenuVisible(false)}
-        open={mobileMenuVisible}
-        style={{ display: "none" }}
-      >
         <Menu
-          mode="vertical"
+          mode="horizontal"
           selectedKeys={[window.location.pathname.split("/")[1] || "home"]}
-          items={mobileMenuItems}
-          style={{ border: "none" }}
+          items={[...menuItems, ...authMenuItems]}
+          style={{ flex: 1, borderBottom: "none", justifyContent: "flex-end" }}
         />
-      </Drawer>
-    </>
+        <div className="right-section">
+          {isAuthenticated && user ? (
+            <Dropdown overlay={userMenu} placement="bottomRight">
+              <Space>
+                <Avatar icon={<UserOutlined />} />
+                <span style={{ color: "#333", marginLeft: 8 }}>{user.name}</span>
+              </Space>
+            </Dropdown>
+          ) : (
+            <Space>
+              <Link to="/login">
+                <Button type="primary">Đăng nhập</Button>
+              </Link>
+              <Link to="/register">
+                <Button>Đăng ký</Button>
+              </Link>
+            </Space>
+          )}
+        </div>
+      </div>
+    </AntHeader>
   )
 }
 

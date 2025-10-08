@@ -10,22 +10,22 @@ const CartTable = ({ items, onUpdateQuantity, onRemoveItem }) => {
       title: "Sản phẩm",
       dataIndex: "product",
       key: "product",
-      render: (product) => (
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+      render: (_, record) => (
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--spacing-md)" }}>
           <Image
             width={60}
             height={60}
-            src={product.image || "/placeholder.svg"}
+            src={record.image || "/placeholder.svg"}
             style={{ borderRadius: "4px", objectFit: "cover" }}
             fallback="/images/logo192.png"
           />
           <div>
             <Text strong style={{ fontSize: "14px" }}>
-              {product.name}
+              {record.name}
             </Text>
             <br />
             <Text type="secondary" style={{ fontSize: "12px" }}>
-              {product.category}
+              {record.category?.name || record.category}
             </Text>
           </div>
         </div>

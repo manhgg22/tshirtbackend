@@ -31,7 +31,7 @@ const Footer = () => {
           <Col xs={24} sm={12} md={6}>
             <div style={{ marginBottom: "24px" }}>
               <Title level={3} style={{ color: "#fff", marginBottom: "16px" }}>
-                🇻🇳 VN T-Shirts
+                🇻🇳 Inkverse
               </Title>
               <Paragraph style={{ color: "#bdc3c7", marginBottom: "16px" }}>
                 Thương hiệu thời trang Việt Nam tự hào, mang đến những sản phẩm chất lượng cao 
@@ -162,7 +162,7 @@ const Footer = () => {
         <Row justify="space-between" align="middle">
           <Col xs={24} sm={12}>
             <Text style={{ color: "#bdc3c7" }}>
-              © 2024 VN T-Shirts. Tất cả quyền được bảo lưu.
+              © 2024 Inkverse. Tất cả quyền được bảo lưu.
             </Text>
           </Col>
           <Col xs={24} sm={12} style={{ textAlign: "right" }}>

@@ -34,7 +34,7 @@ const HomePageVietnamese = () => {
   }, [dispatch])
 
   const handleAddToCart = (product) => {
-    dispatch(addItem({ ...product, quantity: 1 }))
+    dispatch(addItem({ product, quantity: 1 }))
   }
 
   const heroSlides = [
@@ -114,7 +114,7 @@ const HomePageVietnamese = () => {
 
   if (loading) {
     return (
-      <div style={{ textAlign: "center", padding: "100px 0" }}>
+      <div style={{ textAlign: "center", padding: "var(--spacing-hero) 0" }}>
         <Spin size="large" />
         <div style={{ marginTop: "var(--spacing-md)" }}>
           <Text className="text-traditional">Đang tải sản phẩm...</Text>
@@ -286,9 +286,9 @@ const HomePageVietnamese = () => {
       </div>
 
       {/* Cultural Features Section */}
-      <div style={{ padding: "80px 0", background: "var(--cream)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 var(--spacing-lg)" }}>
-          <div style={{ textAlign: "center", marginBottom: "60px" }}>
+      <div style={{ padding: "var(--spacing-section) 0", background: "var(--cream)" }}>
+        <div className="container-standard">
+          <div style={{ textAlign: "center", marginBottom: "var(--spacing-xxl)" }}>
             <Title level={2} className="heading-vietnamese" style={{ marginBottom: "var(--spacing-md)" }}>
               Giá trị truyền thống Việt Nam
             </Title>
@@ -326,11 +326,11 @@ const HomePageVietnamese = () => {
       </div>
 
       {/* Features Section */}
-      <div style={{ padding: "80px 0", background: "var(--ivory-white)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 var(--spacing-lg)" }}>
-          <div style={{ textAlign: "center", marginBottom: "60px" }}>
+      <div style={{ padding: "var(--spacing-section) 0", background: "var(--ivory-white)" }}>
+        <div className="container-standard">
+          <div style={{ textAlign: "center", marginBottom: "var(--spacing-xxl)" }}>
             <Title level={2} className="heading-vietnamese" style={{ marginBottom: "var(--spacing-md)" }}>
-              Tại sao chọn VN T-Shirts?
+              Tại sao chọn Inkverse?
             </Title>
             <Paragraph style={{ fontSize: "18px", color: "var(--mahogany-brown)", maxWidth: "600px", margin: "0 auto" }}>
               Chúng tôi cam kết mang đến những sản phẩm chất lượng cao với dịch vụ tốt nhất
@@ -367,11 +367,11 @@ const HomePageVietnamese = () => {
 
       {/* Stats Section */}
       <div style={{ 
-        padding: "80px 0", 
+        padding: "var(--spacing-section) 0", 
         background: `linear-gradient(135deg, var(--mahogany-brown) 0%, var(--warm-brown) 100%)`,
         color: "var(--ivory-white)",
       }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 var(--spacing-lg)" }}>
+        <div className="container-standard">
           <Row gutter={[32, 32]}>
             {stats.map((stat, index) => (
               <Col xs={12} sm={6} key={index}>
@@ -403,9 +403,9 @@ const HomePageVietnamese = () => {
       </div>
 
       {/* Featured Products */}
-      <div style={{ padding: "80px 0", background: "var(--cream)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 var(--spacing-lg)" }}>
-          <div style={{ textAlign: "center", marginBottom: "60px" }}>
+      <div style={{ padding: "var(--spacing-section) 0", background: "var(--cream)" }}>
+        <div className="container-standard">
+          <div style={{ textAlign: "center", marginBottom: "var(--spacing-xxl)" }}>
             <Title level={2} className="heading-vietnamese" style={{ marginBottom: "var(--spacing-md)" }}>
               Sản phẩm nổi bật
             </Title>
@@ -415,14 +415,28 @@ const HomePageVietnamese = () => {
           </div>
 
           <Row gutter={[24, 24]}>
-            {products.slice(0, 8).map((product) => (
-              <Col xs={24} sm={12} md={8} lg={6} key={product._id}>
-                <ProductCardVietnamese product={product} onAddToCart={() => handleAddToCart(product)} />
-              </Col>
-            ))}
+            {loading && <Col span={24}><Spin size="large" /></Col>}
+            {error && <Col span={24}><Alert message={error} type="error" /></Col>}
+            {Array.isArray(products) && products.length > 0 ? (
+              products.slice(0, 8).map((product) => (
+                <Col xs={24} sm={12} md={8} lg={6} key={product._id}>
+                  <ProductCardVietnamese product={product} onAddToCart={() => handleAddToCart(product)} />
+                </Col>
+              ))
+            ) : (
+              !loading && !error && (
+                <Col span={24}>
+                  <Alert 
+                    message="Không có sản phẩm nào" 
+                    description="Vui lòng kiểm tra kết nối hoặc thử lại sau"
+                    type="warning"
+                  />
+                </Col>
+              )
+            )}
           </Row>
 
-          <div style={{ textAlign: "center", marginTop: "40px" }}>
+          <div style={{ textAlign: "center", marginTop: "var(--spacing-xl)" }}>
             <Button
               className="btn-vietnamese"
               size="large"
@@ -445,10 +459,10 @@ const HomePageVietnamese = () => {
 
       {/* Newsletter Section */}
       <div style={{ 
-        padding: "80px 0", 
+        padding: "var(--spacing-section) 0", 
         background: `linear-gradient(135deg, var(--light-gold) 0%, var(--gold-copper) 100%)`,
       }}>
-        <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 var(--spacing-lg)", textAlign: "center" }}>
+        <div className="container-narrow">
           <Title level={2} className="heading-vietnamese" style={{ marginBottom: "var(--spacing-md)" }}>
             Đăng ký nhận tin tức
           </Title>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇻🇳 Tinh Thần Yêu Nước Việt Nam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #b30000, #8b0000);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(179, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+        
+        .nav-menu a:hover {
+            background: #ffd700;
+            color: #b30000;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, #b30000 0%, #8b0000 100%);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="flag" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><rect width="100" height="33" fill="%23b30000"/><rect y="33" width="100" height="34" fill="%23ffd700"/><rect y="67" width="100" height="33" fill="%23b30000"/></pattern></defs><rect width="100" height="100" fill="url(%23flag)" opacity="0.1"/></svg>');
+            animation: wave 20s ease-in-out infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-10px) translateY(-5px); }
+            50% { transform: translateX(10px) translateY(5px); }
+            75% { transform: translateX(-5px) translateY(10px); }
+        }
+        
+        .hero-content {
+            z-index: 2;
+            position: relative;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            background: linear-gradient(45deg, #ffd700, white);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .hero-button {
+            background: #ffd700;
+            color: #b30000;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .hero-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Timeline Section */
+        .timeline-section {
+            padding: 5rem 0;
+            background: #fbeec1;
+            color: #333;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            color: #b30000;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 2px;
+        }
+        
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .timeline-item {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #b30000, #ffd700);
+        }
+        
+        .timeline-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .timeline-item h3 {
+            font-size: 1.5rem;
+            color: #b30000;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-item .time {
+            color: #ffd700;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        /* Heroes Section */
+        .heroes-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #b30000 0%, #8b0000 100%);
+            color: white;
+        }
+        
+        .heroes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .hero-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .hero-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .hero-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            background: #ffd700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #b30000;
+        }
+        
+        .hero-name {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+        
+        .hero-quote {
+            font-style: italic;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #8b0000;
+            color: #ffd700;
+            padding: 3rem 0 2rem;
+            text-align: center;
+        }
+        
+        .footer-quote {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-links a {
+            color: #ffd700;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-3px);
+            color: white;
+        }
+        
+        .footer-copyright {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="logo">🇻🇳 Việt Nam</a>
+            <ul class="nav-menu">
+                <li><a href="#home">Trang chủ</a></li>
+                <li><a href="#timeline">Lịch sử</a></li>
+                <li><a href="#heroes">Anh hùng</a></li>
+                <li><a href="#contact">Liên hệ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">Tinh Thần Yêu Nước Việt Nam</h1>
+            <p class="hero-subtitle">Từ Văn Lang cổ đại đến thời đại hội nhập và đổi mới</p>
+            <a href="#timeline" class="hero-button">Khám phá hành trình</a>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline-section" id="timeline">
+        <div class="container">
+            <h2 class="section-title">Hành Trình Lịch Sử</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🏛️</div>
+                    <h3>Văn Lang – Âu Lạc</h3>
+                    <div class="time">2879 TCN – 179 TCN</div>
+                    <p>Khởi nguồn dân tộc và tinh thần dựng nước. Thời kỳ Hùng Vương với 18 đời vua, xây dựng nền tảng văn hóa Việt Nam.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">⚔️</div>
+                    <h3>Thời Lý – Trần – Lê</h3>
+                    <div class="time">1009 – 1789</div>
+                    <p>Chiến công hiển hách, lòng yêu nước ngời sáng. Ba lần đánh bại quân Nguyên Mông, bảo vệ độc lập dân tộc.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🛡️</div>
+                    <h3>Kháng chiến chống Pháp – Mỹ</h3>
+                    <div class="time">1945 – 1975</div>
+                    <p>Tinh thần bất khuất, bảo vệ độc lập dân tộc. Cuộc đấu tranh anh dũng giành lại tự do cho Tổ quốc.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🚀</div>
+                    <h3>Việt Nam hiện đại</h3>
+                    <div class="time">1975 – Nay</div>
+                    <p>Hòa bình, phát triển, hội nhập quốc tế. Xây dựng đất nước giàu mạnh, văn minh, hiện đại.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Heroes Section -->
+    <section class="heroes-section" id="heroes">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Anh Hùng Dân Tộc</h2>
+            <div class="heroes-grid">
+                <div class="hero-card">
+                    <div class="hero-image">👑</div>
+                    <h3 class="hero-name">Hai Bà Trưng</h3>
+                    <p class="hero-quote">"Phụ nữ Việt Nam anh hùng, bất khuất"</p>
+                    <small style="opacity: 0.7; margin-top: 1rem; display: block;">40-43 SCN</small>
+                </div>
+                
+                <div class="hero-card">
+                    <div class="hero-image">⚔️</div>
+                    <h3 class="hero-name">Lý Thường Kiệt</h3>
+                    <p class="hero-quote">"Nam quốc sơn hà Nam đế cư"</p>
+                    <small style="opacity: 0.7; margin-top: 1rem; display: block;">1019-1105</small>
+                </div>
+                
+                <div class="hero-card">
+                    <div class="hero-image">🌟</div>
+                    <h3 class="hero-name">Hồ Chí Minh</h3>
+                    <p class="hero-quote">"Không có gì quý hơn độc lập tự do"</p>
+                    <small style="opacity: 0.7; margin-top: 1rem; display: block;">1890-1969</small>
+                </div>
+                
+                <div class="hero-card">
+                    <div class="hero-image">🎖️</div>
+                    <h3 class="hero-name">Võ Nguyên Giáp</h3>
+                    <p class="hero-quote">"Đại tướng của nhân dân"</p>
+                    <small style="opacity: 0.7; margin-top: 1rem; display: block;">1911-2013</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <p class="footer-quote">"Dù ai đi ngược về xuôi<br>Nhớ ngày giỗ Tổ mồng mười tháng ba"</p>
+            <div class="social-links">
+                <a href="#" title="Facebook">📘</a>
+                <a href="#" title="Zalo">💬</a>
+                <a href="#" title="YouTube">📺</a>
+                <a href="#" title="Instagram">📷</a>
+            </div>
+            <p class="footer-copyright">© 2025 Tinh thần Việt Nam – Mọi quyền được bảo lưu</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add some patriotic quotes
+        const quotes = [
+            "Việt Nam muôn năm!",
+            "Tổ quốc trên hết!",
+            "Độc lập - Tự do - Hạnh phúc!",
+            "Việt Nam - Đất nước tôi yêu!",
+            "Tinh thần Việt Nam bất diệt!"
+        ];
+        
+        setInterval(() => {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            console.log(`💝 ${randomQuote}`);
+        }, 10000);
+        
+        console.log('🇻🇳 Tinh Thần Yêu Nước Việt Nam - Landing Page Loaded!');
+    </script>
+</body>
+</html>

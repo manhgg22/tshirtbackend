@@ -5,6 +5,15 @@ import { ShoppingCartOutlined, HeartOutlined, EyeOutlined, StarFilled, CrownOutl
 const ProductCard = ({ product, onAddToCart }) => {
   const [isLiked, setIsLiked] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  
+  // Validate product object
+  if (!product || typeof product !== 'object') {
+    console.error('Invalid product object:', product)
+    return <div>Invalid product data</div>
+  }
+  
+  // Debug log
+  console.log('🎯 ProductCard rendering:', product.name, product.category, product.description)
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -32,8 +41,8 @@ const ProductCard = ({ product, onAddToCart }) => {
       cover={
         <div style={{ position: "relative", overflow: "hidden" }}>
           <Image
-            alt={product.name}
-            src={product.image || `https://via.placeholder.com/300x300/A61C1C/FAF4E1?text=${encodeURIComponent(product.name)}`}
+            alt={product.name || 'Product'}
+            src={product.images?.[0]?.url ? `http://localhost:3000${product.images[0].url}` : (product.image ? `http://localhost:3000${product.image}` : '/images/placeholder.png')}
             style={{ 
               objectFit: "cover", 
               height: 300,
@@ -92,10 +101,10 @@ const ProductCard = ({ product, onAddToCart }) => {
                 <div style={{ 
                   display: "flex", 
                   alignItems: "center", 
-                  gap: "4px",
+                  gap: "var(--spacing-xs)",
                   background: "linear-gradient(45deg, var(--gold-copper), var(--light-gold))",
                   color: "var(--charcoal)",
-                  padding: "4px 8px",
+                  padding: "var(--spacing-xs) var(--spacing-sm)",
                   borderRadius: "var(--radius-sm)",
                   fontSize: "12px",
                   fontWeight: "600",
@@ -159,7 +168,7 @@ const ProductCard = ({ product, onAddToCart }) => {
             color: "var(--mahogany-brown)",
           }}
         >
-          {product.category}
+          {typeof product.category === 'string' ? product.category : product.category?.name || 'Uncategorized'}
         </Typography.Text>
 
         {/* Product Name */}
@@ -175,7 +184,7 @@ const ProductCard = ({ product, onAddToCart }) => {
             fontFamily: "var(--font-heading)",
           }}
         >
-          {product.name}
+          {product.name || 'Unnamed Product'}
         </Typography.Title>
 
         {/* Description */}
@@ -188,7 +197,7 @@ const ProductCard = ({ product, onAddToCart }) => {
             lineHeight: "1.6",
           }}
         >
-          {product.description}
+          {typeof product.description === 'string' ? product.description : product.description?.short || 'No description available'}
         </Typography.Paragraph>
 
         {/* Rating */}

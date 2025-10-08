@@ -6,6 +6,10 @@ import authRoutes from './routes/auth.js';
 import productRoutes from './routes/products.js';
 import designRoutes from './routes/designs.js';
 import orderRoutes from './routes/orders.js';
+import cityRoutes from './routes/cities.js';
+import categoryRoutes from './routes/categories.js';
+import reviewRoutes from './routes/reviews.js';
+import voucherRoutes from './routes/vouchers.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -21,12 +25,17 @@ const __dirname = path.dirname(__filename);
 app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/images', express.static(path.join(__dirname, '../../client/public/images')));
 
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/designs', designRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/vouchers', voucherRoutes);
+app.use('/api', cityRoutes);
 
 app.get("/api/test", (req, res) => {
   res.send("Hello world");

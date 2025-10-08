@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { Layout, Menu, Badge, Typography, Button, Space, Dropdown, Avatar, Drawer } from "antd"
+import React from "react"
+import { Layout, Menu, Badge, Typography, Button, Space, Dropdown, Avatar } from "antd"
 import { Link, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { logout } from "../redux/authSlice"
@@ -10,8 +10,6 @@ import {
   ShopOutlined,
   PlusCircleOutlined,
   HomeOutlined,
-  MenuOutlined,
-  HeartOutlined,
   SearchOutlined,
   CrownOutlined,
 } from "@ant-design/icons"
@@ -24,22 +22,55 @@ const Header = () => {
   const navigate = useNavigate()
   const { user, isAuthenticated } = useSelector((state) => state.auth)
   const cartItems = useSelector((state) => state.cart.items)
-  const [mobileMenuVisible, setMobileMenuVisible] = useState(false)
 
   const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 
   const menuItems = [
-    { key: "home", label: "Trang chủ", icon: <HomeOutlined />, onClick: () => navigate("/") },
-    { key: "shop", label: "Sản phẩm", icon: <ShopOutlined />, onClick: () => navigate("/products") },
-    { key: "design", label: "Thiết kế riêng", icon: <PlusCircleOutlined />, onClick: () => navigate("/custom-design") },
+    { 
+      key: "home", 
+      label: "Trang chủ", 
+      icon: <HomeOutlined style={{ fontSize: "14px" }} />, 
+      onClick: () => navigate("/home") 
+    },
+    { 
+      key: "landing", 
+      label: "Lịch sử", 
+      icon: <CrownOutlined style={{ fontSize: "14px" }} />, 
+      onClick: () => navigate("/") 
+    },
+    { 
+      key: "shop", 
+      label: "Sản phẩm", 
+      icon: <ShopOutlined style={{ fontSize: "14px" }} />, 
+      onClick: () => navigate("/products") 
+    },
+    { 
+      key: "design", 
+      label: "Thiết kế riêng", 
+      icon: <PlusCircleOutlined style={{ fontSize: "14px" }} />, 
+      onClick: () => navigate("/custom-design") 
+    },
     {
       key: "cart",
       label: (
-        <Badge count={cartItemCount} size="small" offset={[5, -5]}>
-          <Text style={{ color: "var(--ivory-white)" }}>Giỏ hàng</Text>
-        </Badge>
+        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+          <ShoppingCartOutlined style={{ fontSize: "14px" }} />
+          <span>Giỏ hàng</span>
+          {cartItemCount > 0 && (
+            <Badge 
+              count={cartItemCount} 
+              size="small" 
+              style={{ 
+                backgroundColor: "#ff4d4f",
+                fontSize: "10px",
+                minWidth: "16px",
+                height: "16px",
+                lineHeight: "16px"
+              }} 
+            />
+          )}
+        </div>
       ),
-      icon: <ShoppingCartOutlined />,
       onClick: () => navigate("/cart"),
     },
   ]
@@ -74,11 +105,6 @@ const Header = () => {
     </Menu>
   )
 
-  const mobileMenuItems = [
-    ...menuItems,
-    ...authMenuItems,
-  ]
-
   return (
     <>
       <AntHeader 
@@ -98,9 +124,10 @@ const Header = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            maxWidth: 1200,
+            maxWidth: 1400,
             margin: "0 auto",
             height: "100%",
+            width: "100%",
           }}
         >
           {/* Logo */}
@@ -125,175 +152,144 @@ const Header = () => {
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
               }}>
-                VN T-Shirts
+                Inkverse
               </span>
             </Link>
           </div>
 
-          {/* Desktop Menu */}
-          <div style={{ display: "flex", alignItems: "center", gap: "var(--spacing-lg)" }}>
-            <Menu
-              mode="horizontal"
-              selectedKeys={[window.location.pathname.split("/")[1] || "home"]}
-              items={menuItems}
+          {/* Navigation Menu */}
+          <div style={{ 
+            display: "flex", 
+            alignItems: "center", 
+            gap: "16px",
+            flex: 1,
+            justifyContent: "center",
+          }}>
+            {menuItems.map((item) => {
+              const isActive = window.location.pathname.split("/")[1] === item.key || 
+                (item.key === "home" && window.location.pathname === "/");
+              
+              return (
+                <div
+                  key={item.key}
+                  onClick={item.onClick}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: "8px 12px",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    color: "var(--ivory-white)",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    transition: "all 0.3s ease",
+                    background: isActive ? "rgba(250, 244, 225, 0.1)" : "transparent",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.target.style.background = "rgba(250, 244, 225, 0.05)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.target.style.background = "transparent";
+                    }
+                  }}
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Search Bar */}
+          <div style={{ 
+            display: "flex", 
+            alignItems: "center", 
+            background: "rgba(250, 244, 225, 0.1)", 
+            borderRadius: "var(--radius-xl)", 
+            padding: "6px 12px",
+            backdropFilter: "blur(10px)",
+            border: "1px solid rgba(200, 155, 60, 0.2)",
+            minWidth: "150px",
+          }}>
+            <SearchOutlined style={{ color: "var(--light-gold)", marginRight: "6px", fontSize: "12px" }} />
+            <input 
+              placeholder="Tìm..." 
               style={{ 
                 background: "transparent", 
-                borderBottom: "none", 
+                border: "none", 
+                outline: "none", 
                 color: "var(--ivory-white)",
-                minWidth: "400px",
-                fontSize: "16px",
-                fontWeight: "500",
+                width: "100%",
+                fontSize: "12px",
               }}
-              theme="dark"
             />
-            
-            {/* Search Bar */}
-            <div style={{ 
-              display: "flex", 
-              alignItems: "center", 
-              background: "rgba(250, 244, 225, 0.1)", 
-              borderRadius: "var(--radius-xl)", 
-              padding: "var(--spacing-sm) var(--spacing-md)",
-              backdropFilter: "blur(10px)",
-              border: "1px solid rgba(200, 155, 60, 0.2)",
-            }}>
-              <SearchOutlined style={{ color: "var(--light-gold)", marginRight: "var(--spacing-sm)" }} />
-              <input 
-                placeholder="Tìm kiếm sản phẩm..." 
-                style={{ 
-                  background: "transparent", 
-                  border: "none", 
-                  outline: "none", 
-                  color: "var(--ivory-white)",
-                  width: "200px",
-                  fontSize: "14px",
-                }}
-              />
-            </div>
+          </div>
 
-            {/* Auth Section */}
-            <div className="right-section">
-              {isAuthenticated && user ? (
-                <Dropdown overlay={userMenu} placement="bottomRight">
-                  <Space style={{ cursor: "pointer", color: "var(--ivory-white)" }}>
-                    <Avatar 
-                      style={{ 
-                        background: "linear-gradient(45deg, var(--gold-copper), var(--light-gold))",
-                        border: "2px solid var(--light-gold)",
-                      }} 
-                      icon={<UserOutlined />} 
-                    />
-                    <span style={{ color: "var(--ivory-white)", marginLeft: "var(--spacing-sm)", fontWeight: "500" }}>
-                      {user.name}
-                    </span>
-                  </Space>
-                </Dropdown>
-              ) : (
-                <Space>
-                  <Link to="/login">
-                    <Button 
-                      className="btn-vietnamese"
-                      style={{ 
-                        background: "rgba(250, 244, 225, 0.1)", 
-                        border: "1px solid var(--light-gold)",
-                        color: "var(--ivory-white)",
-                        backdropFilter: "blur(10px)",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Đăng nhập
-                    </Button>
-                  </Link>
-                  <Link to="/register">
-                    <Button 
-                      className="btn-vietnamese-secondary"
-                      style={{ 
-                        background: "var(--gold-copper)", 
-                        border: "1px solid var(--gold-copper)",
-                        color: "var(--charcoal)",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Đăng ký
-                    </Button>
-                  </Link>
+          {/* Auth Section */}
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            {isAuthenticated && user ? (
+              <Dropdown overlay={userMenu} placement="bottomRight">
+                <Space style={{ cursor: "pointer", color: "var(--ivory-white)" }}>
+                  <Avatar 
+                    size="small"
+                    style={{ 
+                      background: "linear-gradient(45deg, var(--gold-copper), var(--light-gold))",
+                      border: "2px solid var(--light-gold)",
+                      width: "24px",
+                      height: "24px",
+                    }} 
+                    icon={<UserOutlined style={{ fontSize: "12px" }} />} 
+                  />
+                  <span style={{ color: "var(--ivory-white)", fontWeight: "500", fontSize: "12px" }}>
+                    {user.name}
+                  </span>
                 </Space>
-              )}
-            </div>
-
-            {/* Mobile Menu Button */}
-            <Button
-              type="text"
-              icon={<MenuOutlined />}
-              onClick={() => setMobileMenuVisible(true)}
-              style={{ 
-                color: "var(--ivory-white)", 
-                display: "none",
-                fontSize: "20px",
-              }}
-              className="mobile-menu-btn"
-            />
+              </Dropdown>
+            ) : (
+              <Space size="small">
+                <Link to="/login">
+                  <Button 
+                    size="small"
+                    style={{ 
+                      background: "rgba(250, 244, 225, 0.1)", 
+                      border: "1px solid var(--light-gold)",
+                      color: "var(--ivory-white)",
+                      backdropFilter: "blur(10px)",
+                      fontWeight: "600",
+                      fontSize: "12px",
+                      height: "28px",
+                      padding: "0 8px",
+                    }}
+                  >
+                    Đăng nhập
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button 
+                    size="small"
+                    style={{ 
+                      background: "var(--gold-copper)", 
+                      border: "1px solid var(--gold-copper)",
+                      color: "var(--charcoal)",
+                      fontWeight: "600",
+                      fontSize: "12px",
+                      height: "28px",
+                      padding: "0 8px",
+                    }}
+                  >
+                    Đăng ký
+                  </Button>
+                </Link>
+              </Space>
+            )}
           </div>
         </div>
       </AntHeader>
-
-      {/* Mobile Drawer */}
-      <Drawer
-        title={
-          <div style={{ 
-            fontFamily: "var(--font-heading)", 
-            color: "var(--red-son)",
-            fontSize: "20px",
-            fontWeight: "600",
-          }}>
-            🇻🇳 VN T-Shirts
-          </div>
-        }
-        placement="right"
-        onClose={() => setMobileMenuVisible(false)}
-        open={mobileMenuVisible}
-        style={{ display: "none" }}
-        className="mobile-drawer"
-        styles={{
-          body: {
-            background: "var(--ivory-white)",
-          },
-          header: {
-            background: "var(--ivory-white)",
-            borderBottom: "1px solid var(--light-gold)",
-          }
-        }}
-      >
-        <Menu
-          mode="vertical"
-          selectedKeys={[window.location.pathname.split("/")[1] || "home"]}
-          items={mobileMenuItems}
-          style={{ 
-            border: "none",
-            background: "transparent",
-          }}
-        />
-      </Drawer>
-
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .mobile-menu-btn {
-            display: block !important;
-          }
-          
-          .mobile-drawer {
-            display: block !important;
-          }
-          
-          .right-section {
-            display: none;
-          }
-          
-          .ant-menu-horizontal {
-            display: none;
-          }
-        }
-      `}</style>
+      
     </>
   )
 }
