@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ConfigProvider, Layout } from 'antd';
 import { store } from './redux/store';
@@ -15,9 +15,35 @@ import CheckoutPage from './pages/CheckoutPage';
 import OrdersPage from './pages/OrdersPage';
 import CustomDesignPage from './pages/CustomDesignPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import WishlistPage from './pages/WishlistPage';
+import OrderTrackingPage from './pages/OrderTrackingPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import ProfilePage from './pages/ProfilePage';
 import './index.css'
 
 const { Content } = Layout;
+
+// Component để kiểm tra route và quyết định layout
+function AppLayout({ children }) {
+  const location = useLocation();
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+  
+  if (isAuthPage) {
+    // Trang auth không có header và footer
+    return <>{children}</>;
+  }
+  
+  // Các trang khác có header và footer
+  return (
+    <Layout className="min-h-screen" style={{ display: 'flex', flexDirection: 'column' }}>
+      <HeaderVietnamese />
+      <Content className="site-content" style={{ flex: 1 }}>
+        {children}
+      </Content>
+      <FooterVietnamese />
+    </Layout>
+  );
+}
 
 function App() {
   return (
@@ -40,25 +66,25 @@ function App() {
         }}
       >
         <Router>
-          <Layout className="min-h-screen" style={{ display: 'flex', flexDirection: 'column' }}>
-            <HeaderVietnamese />
-            <Content className="site-content" style={{ flex: 1 }}>
-              <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/home" element={<HomePageVietnamese />} />
-                <Route path="/products" element={<ProductsPage />} />
-                <Route path="/products/:id" element={<ProductDetailPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/cart" element={<CartPage />} />
-                <Route path="/checkout" element={<CheckoutPage />} />
-                <Route path="/orders" element={<OrdersPage />} />
-                <Route path="/orders/:id" element={<OrdersPage />} />
-                <Route path="/custom-design" element={<CustomDesignPage />} />
-              </Routes>
-            </Content>
-            <FooterVietnamese />
-          </Layout>
+          <AppLayout>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/home" element={<HomePageVietnamese />} />
+              <Route path="/products" element={<ProductsPage />} />
+              <Route path="/products/:id" element={<ProductDetailPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/wishlist" element={<WishlistPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/orders/:id" element={<OrdersPage />} />
+              <Route path="/track" element={<OrderTrackingPage />} />
+              <Route path="/admin" element={<AdminDashboardPage />} />
+              <Route path="/custom-design" element={<CustomDesignPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+            </Routes>
+          </AppLayout>
         </Router>
       </ConfigProvider>
     </Provider>

@@ -16,25 +16,82 @@ import {
   CrownOutlined,
   BookOutlined,
   TeamOutlined,
+  LeftOutlined,
+  RightOutlined,
 } from "@ant-design/icons"
 import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import { fetchProducts } from "../redux/productSlice"
 import { addItem } from "../redux/cartSlice"
 import ProductCardVietnamese from "../components/ProductCardVietnamese"
+import "./HomePageVietnamese.css"
 
 const { Title, Paragraph, Text } = Typography
 
 const HomePageVietnamese = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { products, loading, error } = useSelector((state) => state.products)
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [isAnimating, setIsAnimating] = useState(false)
+  const [visibleStats, setVisibleStats] = useState(false)
 
   useEffect(() => {
     dispatch(fetchProducts())
   }, [dispatch])
 
+  // Auto-play hero slider
+  useEffect(() => {
+    const timer = setInterval(() => {
+      nextSlide()
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [currentSlide])
+
+  // Stats visibility observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setVisibleStats(true)
+        }
+      },
+      { threshold: 0.3 }
+    )
+
+    const statsElement = document.getElementById('stats-section')
+    if (statsElement) {
+      observer.observe(statsElement)
+    }
+
+    return () => {
+      if (statsElement) {
+        observer.unobserve(statsElement)
+      }
+    }
+  }, [])
+
   const handleAddToCart = (product) => {
-    dispatch(addItem({ product, quantity: 1 }))
+    dispatch(addItem({ 
+      product, 
+      quantity: 1,
+      size: product.sizes?.[0] || 'M',
+      color: product.colors?.[0] || 'Trắng'
+    }))
+  }
+
+  const nextSlide = () => {
+    if (isAnimating) return
+    setIsAnimating(true)
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length)
+    setTimeout(() => setIsAnimating(false), 600)
+  }
+
+  const prevSlide = () => {
+    if (isAnimating) return
+    setIsAnimating(true)
+    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)
+    setTimeout(() => setIsAnimating(false), 600)
   }
 
   const heroSlides = [
@@ -88,10 +145,10 @@ const HomePageVietnamese = () => {
   ]
 
   const stats = [
-    { title: "Khách hàng hài lòng", value: "50K+", icon: <HeartOutlined />, color: "var(--red-son)" },
-    { title: "Sản phẩm đã bán", value: "100K+", icon: <ShoppingCartOutlined />, color: "var(--gold-copper)" },
-    { title: "Năm kinh nghiệm", value: "5+", icon: <TrophyOutlined />, color: "var(--jade-green)" },
-    { title: "Tỷ lệ đánh giá 5 sao", value: "98%", icon: <StarFilled />, color: "var(--mahogany-brown)" },
+    { title: "Khách hàng hài lòng", value: 50000, suffix: "K+", icon: <HeartOutlined />, color: "var(--red-son)" },
+    { title: "Sản phẩm đã bán", value: 100000, suffix: "K+", icon: <ShoppingCartOutlined />, color: "var(--gold-copper)" },
+    { title: "Năm kinh nghiệm", value: 5, suffix: "+", icon: <TrophyOutlined />, color: "var(--jade-green)" },
+    { title: "Tỷ lệ đánh giá 5 sao", value: 98, suffix: "%", icon: <StarFilled />, color: "var(--mahogany-brown)" },
   ]
 
   const culturalElements = [
@@ -112,9 +169,31 @@ const HomePageVietnamese = () => {
     }
   ]
 
+  // Simple CountUp Component
+  const CountUpNumber = ({ end, suffix, duration = 2000 }) => {
+    const [count, setCount] = useState(0)
+
+    useEffect(() => {
+      if (!visibleStats) return
+
+      let startTime
+      const step = (timestamp) => {
+        if (!startTime) startTime = timestamp
+        const progress = Math.min((timestamp - startTime) / duration, 1)
+        setCount(Math.floor(progress * end))
+        if (progress < 1) {
+          requestAnimationFrame(step)
+        }
+      }
+      requestAnimationFrame(step)
+    }, [visibleStats, end, duration])
+
+    return <span>{count}{suffix}</span>
+  }
+
   if (loading) {
     return (
-      <div style={{ textAlign: "center", padding: "var(--spacing-hero) 0" }}>
+      <div className="loading-container">
         <Spin size="large" />
         <div style={{ marginTop: "var(--spacing-md)" }}>
           <Text className="text-traditional">Đang tải sản phẩm...</Text>
@@ -136,102 +215,58 @@ const HomePageVietnamese = () => {
   }
 
   return (
-    <div style={{ background: "var(--ivory-white)" }}>
-      {/* Hero Section */}
-      <div style={{ 
-        background: `linear-gradient(135deg, var(--red-son) 0%, var(--deep-red) 100%)`,
-        minHeight: "600px",
-        display: "flex",
-        alignItems: "center",
-        position: "relative",
-        overflow: "hidden",
-      }}>
-        {/* Traditional Pattern Overlay */}
-        <div style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: "url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"vietnamese-pattern\" x=\"0\" y=\"0\" width=\"20\" height=\"20\" patternUnits=\"userSpaceOnUse\"><circle cx=\"10\" cy=\"10\" r=\"1\" fill=\"%23C89B3C\" opacity=\"0.1\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23vietnamese-pattern)\"/></svg>')",
-          opacity: 0.3,
-        }} />
+    <div className="homepage-vietnamese">
+      {/* Hero Section with Slider */}
+      <div className="hero-section-home">
+        {/* Animated Pattern Background */}
+        <div className="hero-pattern-animated" />
         
-        <div style={{ 
-          maxWidth: 1200, 
-          margin: "0 auto", 
-          padding: "0 var(--spacing-lg)",
-          position: "relative",
-          zIndex: 1,
-        }}>
+        {/* Particles Effect */}
+        <div className="particles-container">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="particle"
+              style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${5 + Math.random() * 10}s`
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="hero-content-wrapper">
           <Row align="middle" gutter={[48, 48]}>
             <Col xs={24} lg={12}>
-              <div style={{ color: "var(--ivory-white)" }}>
+              <div className={`hero-text ${isAnimating ? 'fade-out' : 'fade-in'}`}>
                 <Title 
                   level={1} 
-                  className="heading-vietnamese"
-                  style={{ 
-                    color: "var(--ivory-white)", 
-                    fontSize: "48px",
-                    fontWeight: "700",
-                    marginBottom: "var(--spacing-md)",
-                    lineHeight: "1.2",
-                    fontFamily: "var(--font-heading)",
-                  }}
+                  className="hero-title-animated"
                 >
                   {heroSlides[currentSlide].title}
                 </Title>
                 <Title 
                   level={3} 
-                  style={{ 
-                    color: "var(--light-gold)", 
-                    fontSize: "24px",
-                    fontWeight: "400",
-                    marginBottom: "var(--spacing-md)",
-                  }}
+                  className="hero-subtitle-animated"
                 >
                   {heroSlides[currentSlide].subtitle}
                 </Title>
-                <Paragraph 
-                  style={{ 
-                    color: "rgba(250, 244, 225, 0.9)", 
-                    fontSize: "18px",
-                    marginBottom: "var(--spacing-xl)",
-                    lineHeight: "1.6",
-                  }}
-                >
+                <Paragraph className="hero-description-animated">
                   {heroSlides[currentSlide].description}
                 </Paragraph>
-                <Space size="large">
+                <Space size="large" className="hero-buttons">
                   <Button
-                    className="btn-vietnamese"
+                    className="btn-vietnamese-primary"
                     size="large"
-                    style={{
-                      background: heroSlides[currentSlide].buttonColor,
-                      border: "none",
-                      borderRadius: "var(--radius-md)",
-                      height: "48px",
-                      padding: "0 var(--spacing-xl)",
-                      fontSize: "16px",
-                      fontWeight: "600",
-                    }}
                     icon={<ArrowRightOutlined />}
+                    onClick={() => navigate('/products')}
                   >
                     {heroSlides[currentSlide].buttonText}
                   </Button>
                   <Button
-                    className="btn-vietnamese-secondary"
+                    className="btn-vietnamese-ghost"
                     size="large"
-                    style={{
-                      background: "rgba(250, 244, 225, 0.1)",
-                      border: "1px solid var(--light-gold)",
-                      color: "var(--ivory-white)",
-                      borderRadius: "var(--radius-md)",
-                      height: "48px",
-                      padding: "0 var(--spacing-xl)",
-                      fontSize: "16px",
-                      fontWeight: "600",
-                    }}
                     icon={<PlayCircleOutlined />}
                   >
                     Xem video
@@ -240,16 +275,10 @@ const HomePageVietnamese = () => {
               </div>
             </Col>
             <Col xs={24} lg={12}>
-              <div style={{ textAlign: "center" }}>
+              <div className={`hero-image-wrapper ${isAnimating ? 'zoom-out' : 'zoom-in'}`}>
                 <Image
                   src={heroSlides[currentSlide].image}
-                  style={{
-                    borderRadius: "var(--radius-lg)",
-                    boxShadow: "var(--shadow-strong)",
-                    maxWidth: "100%",
-                    height: "auto",
-                    border: "3px solid var(--light-gold)",
-                  }}
+                  className="hero-image"
                   preview={false}
                 />
               </div>
@@ -257,28 +286,32 @@ const HomePageVietnamese = () => {
           </Row>
         </div>
 
-        {/* Slide indicators */}
-        <div style={{
-          position: "absolute",
-          bottom: "var(--spacing-xl)",
-          left: "50%",
-          transform: "translateX(-50%)",
-          display: "flex",
-          gap: "var(--spacing-md)",
-        }}>
+        {/* Navigation Arrows */}
+        <Button
+          className="hero-nav-btn hero-nav-prev"
+          shape="circle"
+          icon={<LeftOutlined />}
+          onClick={prevSlide}
+        />
+        <Button
+          className="hero-nav-btn hero-nav-next"
+          shape="circle"
+          icon={<RightOutlined />}
+          onClick={nextSlide}
+        />
+
+        {/* Slide Indicators */}
+        <div className="hero-indicators">
           {heroSlides.map((_, index) => (
-            <Button
+            <button
               key={index}
-              type="text"
-              shape="circle"
-              size="small"
-              onClick={() => setCurrentSlide(index)}
-              style={{
-                background: index === currentSlide ? "var(--light-gold)" : "rgba(250, 244, 225, 0.3)",
-                border: "none",
-                width: "12px",
-                height: "12px",
-                minWidth: "12px",
+              className={`hero-indicator ${index === currentSlide ? 'active' : ''}`}
+              onClick={() => {
+                if (!isAnimating) {
+                  setIsAnimating(true)
+                  setCurrentSlide(index)
+                  setTimeout(() => setIsAnimating(false), 600)
+                }
               }}
             />
           ))}
@@ -286,13 +319,13 @@ const HomePageVietnamese = () => {
       </div>
 
       {/* Cultural Features Section */}
-      <div style={{ padding: "var(--spacing-section) 0", background: "var(--cream)" }}>
+      <div className="cultural-section scroll-fade-in">
         <div className="container-standard">
-          <div style={{ textAlign: "center", marginBottom: "var(--spacing-xxl)" }}>
-            <Title level={2} className="heading-vietnamese" style={{ marginBottom: "var(--spacing-md)" }}>
+          <div className="section-header">
+            <Title level={2} className="heading-vietnamese section-title">
               Giá trị truyền thống Việt Nam
             </Title>
-            <Paragraph style={{ fontSize: "18px", color: "var(--mahogany-brown)", maxWidth: "600px", margin: "0 auto" }}>
+            <Paragraph className="section-description">
               Chúng tôi tự hào mang đến những sản phẩm thể hiện tinh thần và văn hóa Việt Nam
             </Paragraph>
           </div>
@@ -301,21 +334,16 @@ const HomePageVietnamese = () => {
             {culturalElements.map((element, index) => (
               <Col xs={24} sm={8} key={index}>
                 <Card
-                  className="card-vietnamese"
-                  style={{
-                    textAlign: "center",
-                    height: "100%",
-                    background: "var(--ivory-white)",
-                    border: "1px solid var(--light-gold)",
-                  }}
+                  className={`cultural-card scroll-fade-in`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div style={{ marginBottom: "var(--spacing-md)" }}>
+                  <div className="cultural-icon icon-bounce">
                     {element.icon}
                   </div>
-                  <Title level={4} className="text-traditional" style={{ marginBottom: "var(--spacing-sm)" }}>
+                  <Title level={4} className="cultural-title">
                     {element.title}
                   </Title>
-                  <Paragraph style={{ color: "var(--medium-gray)", margin: 0 }}>
+                  <Paragraph className="cultural-description">
                     {element.description}
                   </Paragraph>
                 </Card>
@@ -326,13 +354,13 @@ const HomePageVietnamese = () => {
       </div>
 
       {/* Features Section */}
-      <div style={{ padding: "var(--spacing-section) 0", background: "var(--ivory-white)" }}>
+      <div className="features-section">
         <div className="container-standard">
-          <div style={{ textAlign: "center", marginBottom: "var(--spacing-xxl)" }}>
-            <Title level={2} className="heading-vietnamese" style={{ marginBottom: "var(--spacing-md)" }}>
+          <div className="section-header">
+            <Title level={2} className="heading-vietnamese section-title">
               Tại sao chọn Inkverse?
             </Title>
-            <Paragraph style={{ fontSize: "18px", color: "var(--mahogany-brown)", maxWidth: "600px", margin: "0 auto" }}>
+            <Paragraph className="section-description">
               Chúng tôi cam kết mang đến những sản phẩm chất lượng cao với dịch vụ tốt nhất
             </Paragraph>
           </div>
@@ -341,21 +369,16 @@ const HomePageVietnamese = () => {
             {features.map((feature, index) => (
               <Col xs={24} sm={12} md={6} key={index}>
                 <Card
-                  className="card-vietnamese"
-                  style={{
-                    textAlign: "center",
-                    height: "100%",
-                    background: "var(--ivory-white)",
-                    border: "1px solid var(--light-gold)",
-                  }}
+                  className={`feature-card scroll-fade-in`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div style={{ marginBottom: "var(--spacing-md)" }}>
+                  <div className="feature-icon icon-float">
                     {feature.icon}
                   </div>
-                  <Title level={4} className="text-traditional" style={{ marginBottom: "var(--spacing-sm)" }}>
+                  <Title level={4} className="feature-title">
                     {feature.title}
                   </Title>
-                  <Paragraph style={{ color: "var(--medium-gray)", margin: 0 }}>
+                  <Paragraph className="feature-description">
                     {feature.description}
                   </Paragraph>
                 </Card>
@@ -366,33 +389,20 @@ const HomePageVietnamese = () => {
       </div>
 
       {/* Stats Section */}
-      <div style={{ 
-        padding: "var(--spacing-section) 0", 
-        background: `linear-gradient(135deg, var(--mahogany-brown) 0%, var(--warm-brown) 100%)`,
-        color: "var(--ivory-white)",
-      }}>
+      <div id="stats-section" className="stats-section">
         <div className="container-standard">
           <Row gutter={[32, 32]}>
             {stats.map((stat, index) => (
               <Col xs={12} sm={6} key={index}>
-                <div style={{ textAlign: "center" }}>
-                  <div style={{ 
-                    fontSize: "48px", 
-                    marginBottom: "var(--spacing-md)",
-                    color: stat.color,
-                  }}>
+                <div className={`stat-card ${visibleStats ? 'visible' : ''}`}
+                     style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div className="stat-icon icon-pulse" style={{ color: stat.color }}>
                     {stat.icon}
                   </div>
-                  <Statistic
-                    value={stat.value}
-                    valueStyle={{ 
-                      color: "var(--light-gold)", 
-                      fontSize: "32px", 
-                      fontWeight: "700",
-                      fontFamily: "var(--font-heading)",
-                    }}
-                  />
-                  <Text style={{ color: "rgba(250, 244, 225, 0.9)", fontSize: "16px" }}>
+                  <div className="stat-value">
+                    <CountUpNumber end={stat.value} suffix={stat.suffix} />
+                  </div>
+                  <Text className="stat-title">
                     {stat.title}
                   </Text>
                 </div>
@@ -403,13 +413,13 @@ const HomePageVietnamese = () => {
       </div>
 
       {/* Featured Products */}
-      <div style={{ padding: "var(--spacing-section) 0", background: "var(--cream)" }}>
+      <div className="products-section">
         <div className="container-standard">
-          <div style={{ textAlign: "center", marginBottom: "var(--spacing-xxl)" }}>
-            <Title level={2} className="heading-vietnamese" style={{ marginBottom: "var(--spacing-md)" }}>
+          <div className="section-header">
+            <Title level={2} className="heading-vietnamese section-title">
               Sản phẩm nổi bật
             </Title>
-            <Paragraph style={{ fontSize: "18px", color: "var(--mahogany-brown)", maxWidth: "600px", margin: "0 auto" }}>
+            <Paragraph className="section-description">
               Khám phá những sản phẩm được yêu thích nhất từ bộ sưu tập của chúng tôi
             </Paragraph>
           </div>
@@ -418,9 +428,17 @@ const HomePageVietnamese = () => {
             {loading && <Col span={24}><Spin size="large" /></Col>}
             {error && <Col span={24}><Alert message={error} type="error" /></Col>}
             {Array.isArray(products) && products.length > 0 ? (
-              products.slice(0, 8).map((product) => (
+              products.slice(0, 8).map((product, index) => (
                 <Col xs={24} sm={12} md={8} lg={6} key={product._id}>
-                  <ProductCardVietnamese product={product} onAddToCart={() => handleAddToCart(product)} />
+                  <div
+                    className="product-card-wrapper scroll-fade-in"
+                    style={{ animationDelay: `${index * 0.05}s` }}
+                  >
+                    <ProductCardVietnamese 
+                      product={product} 
+                      onAddToCart={() => handleAddToCart(product)} 
+                    />
+                  </div>
                 </Col>
               ))
             ) : (
@@ -436,20 +454,12 @@ const HomePageVietnamese = () => {
             )}
           </Row>
 
-          <div style={{ textAlign: "center", marginTop: "var(--spacing-xl)" }}>
+          <div className="products-cta">
             <Button
-              className="btn-vietnamese"
+              className="btn-vietnamese-large"
               size="large"
-              style={{
-                background: "linear-gradient(135deg, var(--gold-copper), var(--light-gold))",
-                border: "none",
-                borderRadius: "var(--radius-md)",
-                height: "48px",
-                padding: "0 var(--spacing-xl)",
-                fontSize: "16px",
-                fontWeight: "600",
-              }}
               icon={<ArrowRightOutlined />}
+              onClick={() => navigate('/products')}
             >
               Xem tất cả sản phẩm
             </Button>
@@ -458,47 +468,26 @@ const HomePageVietnamese = () => {
       </div>
 
       {/* Newsletter Section */}
-      <div style={{ 
-        padding: "var(--spacing-section) 0", 
-        background: `linear-gradient(135deg, var(--light-gold) 0%, var(--gold-copper) 100%)`,
-      }}>
+      <div className="newsletter-section">
         <div className="container-narrow">
-          <Title level={2} className="heading-vietnamese" style={{ marginBottom: "var(--spacing-md)" }}>
-            Đăng ký nhận tin tức
-          </Title>
-          <Paragraph style={{ fontSize: "18px", color: "var(--mahogany-brown)", marginBottom: "var(--spacing-xl)" }}>
-            Nhận thông tin về sản phẩm mới và ưu đãi đặc biệt
-          </Paragraph>
-          
-          <Space.Compact style={{ width: "100%", maxWidth: "400px" }}>
-            <input
-              placeholder="Nhập email của bạn"
-              style={{
-                flex: 1,
-                padding: "var(--spacing-md)",
-                border: "1px solid var(--mahogany-brown)",
-                borderRadius: "var(--radius-md) 0 0 var(--radius-md)",
-                outline: "none",
-                fontSize: "16px",
-                background: "var(--ivory-white)",
-                color: "var(--charcoal)",
-              }}
-            />
-            <Button
-              className="btn-vietnamese"
-              style={{
-                background: "var(--red-son)",
-                border: "none",
-                borderRadius: "0 var(--radius-md) var(--radius-md) 0",
-                padding: "0 var(--spacing-lg)",
-                fontSize: "16px",
-                fontWeight: "600",
-                color: "var(--ivory-white)",
-              }}
-            >
-              Đăng ký
-            </Button>
-          </Space.Compact>
+          <div className="newsletter-content scroll-fade-in">
+            <Title level={2} className="newsletter-title">
+              Đăng ký nhận tin tức
+            </Title>
+            <Paragraph className="newsletter-description">
+              Nhận thông tin về sản phẩm mới và ưu đãi đặc biệt
+            </Paragraph>
+            
+            <div className="newsletter-form">
+              <input
+                className="newsletter-input"
+                placeholder="Nhập email của bạn"
+              />
+              <Button className="newsletter-button">
+                Đăng ký
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

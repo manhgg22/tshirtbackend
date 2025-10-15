@@ -1,9 +1,17 @@
 {
-  "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.2"
+  "name": "vietnam-tshirts-app",
+  "version": "1.0.0",
+  "description": "Vietnam T-shirts E-commerce App",
+  "scripts": {
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start",
+    "dev": "concurrently \"cd client && npm start\" \"cd server && npm run dev\"",
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install"
   },
-  "dependencies": {
-    "jsonwebtoken": "^9.0.2",
-    "nodemailer": "^7.0.6"
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
