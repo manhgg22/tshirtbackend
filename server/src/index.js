@@ -46,7 +46,7 @@ const DB_ENVIRONMENT = process.env.DB_ENVIRONMENT || 'local';
 
 const MONGODB_CONFIGS = {
   local: 'mongodb://127.0.0.1:27017/vietnam-tshirts',
-  atlas: process.env.MONGODB_ATLAS_URI || 'mongodb+srv://username:password@cluster.mongodb.net/vietnam-tshirts?retryWrites=true&w=majority'
+  atlas: 'mongodb+srv://manhgg22_db_user:zsygae8XCNw0JKa9@cluster0.d4zw1qf.mongodb.net/vietnam-tshirts?retryWrites=true&w=majority&appName=Cluster0'
 };
 
 const MONGODB_URI = process.env.MONGODB_URI || MONGODB_CONFIGS[DB_ENVIRONMENT];

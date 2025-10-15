@@ -1,0 +1,92 @@
+[
+  {
+    "qrCode": {
+      "bankAccount": "0359937294",
+      "bankName": "TPBank"
+    },
+    "customerInfo": {
+      "name": "Nguyễn Văn An",
+      "phone": "0123456789",
+      "email": "nguyenvanan@email.com",
+      "address": "123 Đường ABC, Phường Dịch Vọng",
+      "city": "Hà Nội",
+      "district": "Cầu Giấy",
+      "zipcode": "100000"
+    },
+    "shippingAddress": {
+      "street": "123 Đường ABC, Phường Dịch Vọng",
+      "city": "Hà Nội",
+      "state": "Hà Nội",
+      "zipCode": "100000",
+      "country": "Việt Nam"
+    },
+    "_id": "68ef1236e958e49d602c8025",
+    "userId": "68ef1236e958e49d602c8014",
+    "items": [
+      {
+        "productId": "68ef1236e958e49d602c801c",
+        "quantity": 1,
+        "price": 299000,
+        "_id": "68ef1236e958e49d602c8026"
+      },
+      {
+        "productId": "68ef1236e958e49d602c801e",
+        "quantity": 2,
+        "price": 299000,
+        "_id": "68ef1236e958e49d602c8027"
+      }
+    ],
+    "total": 897000,
+    "status": "delivered",
+    "paymentStatus": "paid",
+    "paymentMethod": "qr_tpbank",
+    "orderCode": "ORD-2024-001",
+    "shippingMethod": "standard",
+    "shippingFee": 0,
+    "discountAmount": 0,
+    "createdAt": "2025-10-15T03:17:10.434Z",
+    "__v": 0
+  },
+  {
+    "qrCode": {
+      "bankAccount": "0359937294",
+      "bankName": "TPBank"
+    },
+    "customerInfo": {
+      "name": "Nguyễn Văn An",
+      "phone": "0123456789",
+      "email": "nguyenvanan@email.com",
+      "address": "123 Đường ABC, Phường Dịch Vọng",
+      "city": "Hà Nội",
+      "district": "Cầu Giấy",
+      "zipcode": "100000"
+    },
+    "shippingAddress": {
+      "street": "123 Đường ABC, Phường Dịch Vọng",
+      "city": "Hà Nội",
+      "state": "Hà Nội",
+      "zipCode": "100000",
+      "country": "Việt Nam"
+    },
+    "_id": "68ef1236e958e49d602c8028",
+    "userId": "68ef1236e958e49d602c8014",
+    "items": [
+      {
+        "productId": "68ef1236e958e49d602c801c",
+        "quantity": 1,
+        "price": 199000,
+        "_id": "68ef1236e958e49d602c8029"
+      }
+    ],
+    "total": 199000,
+    "status": "shipped",
+    "paymentStatus": "paid",
+    "paymentMethod": "bank_transfer",
+    "orderCode": "ORD-2024-002",
+    "shippingMethod": "standard",
+    "shippingFee": 0,
+    "discountAmount": 0,
+    "createdAt": "2025-10-15T03:17:10.435Z",
+    "__v": 0
+  }
+]

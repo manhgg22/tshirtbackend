@@ -14,11 +14,17 @@
 3. Import project từ GitHub
 4. Cấu hình Environment Variables:
    ```
-   MONGODB_ATLAS_URI=mongodb+srv://username:password@cluster.mongodb.net/vietnam-tshirts
+   DB_ENVIRONMENT=atlas
+   REACT_APP_API_URL=https://yourdomain.com/api
    JWT_SECRET=your-super-secret-jwt-key
    NODE_ENV=production
    ```
 5. Deploy!
+
+### Cấu trúc Vercel:
+- **Frontend:** Served từ `client/build/`
+- **Backend API:** Served từ `server/src/index.js` tại `/api/*`
+- **Database:** MongoDB Atlas cloud
 
 ### Bước 3: Cấu hình Custom Domain
 1. Vào Vercel Dashboard → Project → Settings → Domains

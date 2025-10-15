@@ -1,0 +1,36 @@
+[
+  {
+    "seo": {
+      "keywords": []
+    },
+    "_id": "68ef1236e958e49d602c8011",
+    "name": "Anh Hùng Dân Tộc",
+    "slug": "anh-hung-dan-toc",
+    "description": "Áo thun in hình các anh hùng dân tộc Việt Nam",
+    "image": "/images/vuahung.webp",
+    "parent": null,
+    "level": 0,
+    "isActive": true,
+    "sortOrder": 0,
+    "__v": 0,
+    "createdAt": "2025-10-15T03:17:10.358Z",
+    "updatedAt": "2025-10-15T03:17:10.358Z"
+  },
+  {
+    "seo": {
+      "keywords": []
+    },
+    "_id": "68ef1236e958e49d602c8012",
+    "name": "Văn Hóa Việt Nam",
+    "slug": "van-hoa-viet-nam",
+    "description": "Áo thun thể hiện văn hóa truyền thống Việt Nam",
+    "image": "/images/placeholder.png",
+    "parent": null,
+    "level": 0,
+    "isActive": true,
+    "sortOrder": 0,
+    "__v": 0,
+    "createdAt": "2025-10-15T03:17:10.364Z",
+    "updatedAt": "2025-10-15T03:17:10.364Z"
+  }
+]

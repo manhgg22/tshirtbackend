@@ -1,0 +1,125 @@
+[
+  {
+    "preferences": {
+      "notifications": {
+        "email": true,
+        "sms": true,
+        "push": false
+      },
+      "newsletter": true
+    },
+    "_id": "68ef1236e958e49d602c8014",
+    "name": "Nguyễn Văn An",
+    "email": "nguyenvanan@email.com",
+    "password": "$2b$12$YbEiTKXBAM50p6OQT6UDdupv5z3.53ahM.Vj0fB.cnIWmuaTmm2b.",
+    "phone": "0123456789",
+    "avatar": "",
+    "role": "user",
+    "isEmailVerified": true,
+    "isPhoneVerified": true,
+    "addresses": [
+      {
+        "type": "home",
+        "name": "Nguyễn Văn An",
+        "phone": "0123456789",
+        "address": "123 Đường ABC, Phường Dịch Vọng",
+        "city": "Hà Nội",
+        "district": "Cầu Giấy",
+        "ward": "Dịch Vọng",
+        "zipcode": "100000",
+        "isDefault": true,
+        "_id": "68ef1236e958e49d602c8015"
+      },
+      {
+        "type": "work",
+        "name": "Nguyễn Văn An",
+        "phone": "0123456789",
+        "address": "456 Tòa nhà XYZ, Phường Bến Nghé",
+        "city": "TP. Hồ Chí Minh",
+        "district": "Quận 1",
+        "ward": "Phường Bến Nghé",
+        "zipcode": "700000",
+        "isDefault": false,
+        "_id": "68ef1236e958e49d602c8016"
+      }
+    ],
+    "loginAttempts": 0,
+    "__v": 0,
+    "createdAt": "2025-10-15T03:17:10.401Z",
+    "updatedAt": "2025-10-15T03:17:10.449Z"
+  },
+  {
+    "preferences": {
+      "notifications": {
+        "email": true,
+        "sms": false,
+        "push": true
+      },
+      "newsletter": false
+    },
+    "_id": "68ef1236e958e49d602c8017",
+    "name": "Trần Thị Bình",
+    "email": "tranthibinh@email.com",
+    "password": "$2b$12$5KR8AwUmDKHWRmoyGCXXBeF.JdgHFOA6hDrtLdPaUASvNffpjO2Ba",
+    "phone": "0987654321",
+    "avatar": "",
+    "role": "user",
+    "isEmailVerified": true,
+    "isPhoneVerified": true,
+    "addresses": [
+      {
+        "type": "home",
+        "name": "Trần Thị Bình",
+        "phone": "0987654321",
+        "address": "789 Đường DEF, Phường Hải Châu I",
+        "city": "Đà Nẵng",
+        "district": "Hải Châu",
+        "ward": "Phường Hải Châu I",
+        "zipcode": "500000",
+        "isDefault": true,
+        "_id": "68ef1236e958e49d602c8018"
+      }
+    ],
+    "loginAttempts": 0,
+    "__v": 0,
+    "createdAt": "2025-10-15T03:17:10.402Z",
+    "updatedAt": "2025-10-15T03:17:10.402Z"
+  },
+  {
+    "preferences": {
+      "notifications": {
+        "email": false,
+        "sms": true,
+        "push": true
+      },
+      "newsletter": true
+    },
+    "_id": "68ef1236e958e49d602c8019",
+    "name": "Lê Văn Cường",
+    "email": "levancuong@email.com",
+    "password": "$2b$12$J1hOvNQeVLJgysqtUy.FWeK6m54MF4f.CBCoA8pJ/jXy0Q47UkTdG",
+    "phone": "0369852147",
+    "avatar": "",
+    "role": "user",
+    "isEmailVerified": false,
+    "isPhoneVerified": true,
+    "addresses": [
+      {
+        "type": "home",
+        "name": "Lê Văn Cường",
+        "phone": "0369852147",
+        "address": "321 Đường GHI, Phường Máy Chai",
+        "city": "Hải Phòng",
+        "district": "Ngô Quyền",
+        "ward": "Phường Máy Chai",
+        "zipcode": "180000",
+        "isDefault": true,
+        "_id": "68ef1236e958e49d602c801a"
+      }
+    ],
+    "loginAttempts": 0,
+    "__v": 0,
+    "createdAt": "2025-10-15T03:17:10.402Z",
+    "updatedAt": "2025-10-15T03:17:10.402Z"
+  }
+]

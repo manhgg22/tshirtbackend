@@ -4,7 +4,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.js",
+    "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "dev:local": "cross-env DB_ENVIRONMENT=local nodemon src/index.js",
     "dev:atlas": "cross-env DB_ENVIRONMENT=atlas nodemon src/index.js",
