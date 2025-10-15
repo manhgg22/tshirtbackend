@@ -1,0 +1,26 @@
+# MongoDB Atlas Configuration
+DB_ENVIRONMENT=atlas
+
+# API Configuration
+REACT_APP_API_URL=https://tshirtbackend.vercel.app/api
+NODE_ENV=production
+
+# JWT Secret Key (Change this to a secure random string)
+JWT_SECRET=vietnam-tshirts-super-secret-jwt-key-2024-manhgg22
+
+# VNPay Configuration (Optional - for payment)
+VNP_TMN_CODE=
+VNP_HASH_SECRET=
+VNP_URL=https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+VNP_API=https://sandbox.vnpayment.vn/merchant_webapi/api/transaction
+VNP_RETURN_URL=https://tshirtbackend.vercel.app/api/orders/vnpay_return
+
+# Server Configuration
+PORT=3000
+
+# CORS Configuration
+CORS_ORIGIN=https://tshirtbackend.vercel.app
+
+# Rate Limiting
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX_REQUESTS=100
