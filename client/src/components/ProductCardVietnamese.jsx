@@ -1,10 +1,12 @@
 import React, { useState } from "react"
 import { Card, Typography, Button, Image, Tooltip, Rate, Badge, Space } from "antd"
 import { ShoppingCartOutlined, HeartOutlined, EyeOutlined, StarFilled, CrownOutlined } from "@ant-design/icons"
+import { useNavigate } from "react-router-dom"
 
-const ProductCard = ({ product, onAddToCart }) => {
+const ProductCard = ({ product, onAddToCart, onQuickView }) => {
   const [isLiked, setIsLiked] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const navigate = useNavigate()
   
   // Validate product object
   if (!product || typeof product !== 'object') {
@@ -68,6 +70,7 @@ const ProductCard = ({ product, onAddToCart }) => {
                 type="primary"
                 shape="circle"
                 icon={<EyeOutlined />}
+                onClick={() => navigate(`/product/${product._id || product.id}`)}
                 style={{
                   background: "var(--ivory-white)",
                   border: "1px solid var(--light-gold)",
@@ -137,6 +140,24 @@ const ProductCard = ({ product, onAddToCart }) => {
         </div>
       }
       actions={[
+        <Button
+          className="btn-vietnamese"
+          icon={<EyeOutlined />}
+          onClick={() => onQuickView && onQuickView(product)}
+          style={{
+            background: "linear-gradient(135deg, var(--red-son), var(--deep-red))",
+            border: "none",
+            borderRadius: "var(--radius-md)",
+            height: "44px",
+            fontWeight: "600",
+            width: "100%",
+            color: "white",
+            fontSize: "16px",
+            marginBottom: "8px"
+          }}
+        >
+          Xem nhanh
+        </Button>,
         <Button
           className="btn-vietnamese"
           icon={<ShoppingCartOutlined />}

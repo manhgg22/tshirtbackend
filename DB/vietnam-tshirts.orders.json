@@ -1,0 +1,192 @@
+[{
+  "_id": {
+    "$oid": "68ef1236e958e49d602c8025"
+  },
+  "userId": {
+    "$oid": "68ef1236e958e49d602c8014"
+  },
+  "items": [
+    {
+      "productId": {
+        "$oid": "68ef1236e958e49d602c801c"
+      },
+      "quantity": 1,
+      "price": 299000,
+      "_id": {
+        "$oid": "68ef1236e958e49d602c8026"
+      }
+    },
+    {
+      "productId": {
+        "$oid": "68ef1236e958e49d602c801e"
+      },
+      "quantity": 2,
+      "price": 299000,
+      "_id": {
+        "$oid": "68ef1236e958e49d602c8027"
+      }
+    }
+  ],
+  "total": 897000,
+  "status": "delivered",
+  "paymentStatus": "paid",
+  "paymentMethod": "qr_tpbank",
+  "qrCode": {
+    "bankAccount": "0359937294",
+    "bankName": "TPBank"
+  },
+  "customerInfo": {
+    "name": "Nguyễn Văn An",
+    "phone": "0123456789",
+    "email": "nguyenvanan@email.com",
+    "address": "123 Đường ABC, Phường Dịch Vọng",
+    "city": "Hà Nội",
+    "district": "Cầu Giấy",
+    "zipcode": "100000"
+  },
+  "shippingAddress": {
+    "street": "123 Đường ABC, Phường Dịch Vọng",
+    "city": "Hà Nội",
+    "state": "Hà Nội",
+    "zipCode": "100000",
+    "country": "Việt Nam"
+  },
+  "orderCode": "ORD-2024-001",
+  "shippingMethod": "standard",
+  "shippingFee": 0,
+  "discountAmount": 0,
+  "createdAt": {
+    "$date": "2025-10-15T03:17:10.434Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef1236e958e49d602c8028"
+  },
+  "userId": {
+    "$oid": "68ef1236e958e49d602c8014"
+  },
+  "items": [
+    {
+      "productId": {
+        "$oid": "68ef1236e958e49d602c801c"
+      },
+      "quantity": 1,
+      "price": 199000,
+      "_id": {
+        "$oid": "68ef1236e958e49d602c8029"
+      }
+    }
+  ],
+  "total": 199000,
+  "status": "shipped",
+  "paymentStatus": "paid",
+  "paymentMethod": "bank_transfer",
+  "qrCode": {
+    "bankAccount": "0359937294",
+    "bankName": "TPBank"
+  },
+  "customerInfo": {
+    "name": "Nguyễn Văn An",
+    "phone": "0123456789",
+    "email": "nguyenvanan@email.com",
+    "address": "123 Đường ABC, Phường Dịch Vọng",
+    "city": "Hà Nội",
+    "district": "Cầu Giấy",
+    "zipcode": "100000"
+  },
+  "shippingAddress": {
+    "street": "123 Đường ABC, Phường Dịch Vọng",
+    "city": "Hà Nội",
+    "state": "Hà Nội",
+    "zipCode": "100000",
+    "country": "Việt Nam"
+  },
+  "orderCode": "ORD-2024-002",
+  "shippingMethod": "standard",
+  "shippingFee": 0,
+  "discountAmount": 0,
+  "createdAt": {
+    "$date": "2025-10-15T03:17:10.435Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef4514c86cb2a7a870d398"
+  },
+  "userId": {
+    "$oid": "68ef4514c86cb2a7a870d397"
+  },
+  "items": [
+    {
+      "productId": {
+        "$oid": "68e5e102be24b37c21f0bccf"
+      },
+      "quantity": 1,
+      "price": 450000,
+      "_id": {
+        "$oid": "68ef4514c86cb2a7a870d399"
+      }
+    },
+    {
+      "productId": {
+        "$oid": "68ef26ae44795b2146503277"
+      },
+      "quantity": 6,
+      "price": 299000,
+      "_id": {
+        "$oid": "68ef4514c86cb2a7a870d39a"
+      }
+    },
+    {
+      "productId": {
+        "$oid": "68ef26ae44795b2146503277"
+      },
+      "quantity": 2,
+      "price": 299000,
+      "_id": {
+        "$oid": "68ef4514c86cb2a7a870d39b"
+      }
+    }
+  ],
+  "total": 2842000,
+  "status": "paid",
+  "paymentStatus": "paid",
+  "paymentMethod": "qr_tpbank",
+  "qrCode": {
+    "data": "{\"bankAccount\":\"0359937294\",\"bankName\":\"TPBank\",\"accountName\":\"Nguyen Van A\",\"amount\":2842000,\"message\":\"Thanh toan don hang VNMGRMY0BUX5PC3 - 2.842.000 VND\",\"orderCode\":\"VNMGRMY0BUX5PC3\"}",
+    "imageUrl": "data:image/png;base64,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",
+    "bankAccount": "0359937294",
+    "bankName": "TPBank"
+  },
+  "customerInfo": {
+    "name": "Lê Duc Manh",
+    "phone": "0987655411",
+    "email": "manhgg22@gmail.com",
+    "address": "Quận Hà Đông",
+    "city": "Tỉnh Phú Thọ",
+    "district": "Huyện Tam Nông",
+    "note": "GIao hang"
+  },
+  "shippingAddress": {
+    "street": "Quận Hà Đông",
+    "city": "Tỉnh Phú Thọ",
+    "state": "Huyện Tam Nông",
+    "zipCode": "000000",
+    "country": "Vietnam"
+  },
+  "orderCode": "VNMGRMY0BUX5PC3",
+  "shippingMethod": "standard",
+  "shippingFee": 0,
+  "voucherCode": null,
+  "discountAmount": 0,
+  "createdAt": {
+    "$date": "2025-10-15T06:54:12.879Z"
+  },
+  "__v": 0,
+  "paidAt": {
+    "$date": "2025-10-15T06:55:14.396Z"
+  }
+}]

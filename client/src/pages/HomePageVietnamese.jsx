@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Typography, Row, Col, Spin, Alert, Card, Button, Space, Image, Statistic, Divider } from "antd"
+import { Typography, Row, Col, Spin, Alert, Card, Button, Space, Image, Statistic, Divider, message, Modal, Rate } from "antd"
 import {
   ShoppingCartOutlined,
   StarFilled,
@@ -18,6 +18,12 @@ import {
   TeamOutlined,
   LeftOutlined,
   RightOutlined,
+  CoffeeOutlined,
+  FlagOutlined,
+  HomeOutlined,
+  HistoryOutlined,
+  GlobalOutlined,
+  GiftOutlined,
 } from "@ant-design/icons"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
@@ -35,6 +41,8 @@ const HomePageVietnamese = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
   const [visibleStats, setVisibleStats] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState(null)
 
   useEffect(() => {
     dispatch(fetchProducts())
@@ -72,13 +80,35 @@ const HomePageVietnamese = () => {
   }, [])
 
   const handleAddToCart = (product) => {
-    dispatch(addItem({ 
-      product, 
+    dispatch(addItem({
+      product: {
+        _id: product._id || product.id,
+        name: product.name,
+        price: product.price,
+        originalPrice: product.originalPrice,
+        image: product.images?.[0]?.url || product.image || '/images/placeholder.png',
+        images: product.images,
+        description: product.description,
+        shortDescription: product.shortDescription,
+        category: product.category,
+        brand: product.brand,
+        sizes: product.sizes || ['M'],
+        colors: product.colors || ['Trắng'],
+        inStock: product.inStock !== false,
+        rating: product.rating,
+        sales: product.sales
+      },
       quantity: 1,
       size: product.sizes?.[0] || 'M',
       color: product.colors?.[0] || 'Trắng'
-    }))
-  }
+    }));
+    message.success(`Đã thêm ${product.name} vào giỏ hàng!`);
+  };
+
+  const handleQuickView = (product) => {
+    setSelectedProduct(product);
+    setModalVisible(true);
+  };
 
   const nextSlide = () => {
     if (isAnimating) return
@@ -96,76 +126,89 @@ const HomePageVietnamese = () => {
 
   const heroSlides = [
     {
-      title: "Tự Hào Việt Nam",
-      subtitle: "Thiết kế độc đáo thể hiện tinh thần dân tộc",
-      description: "Khám phá bộ sưu tập áo thun với thiết kế đặc biệt tôn vinh văn hóa và lịch sử Việt Nam",
-      image: "https://via.placeholder.com/1200x600/A61C1C/FAF4E1?text=Tự+Hào+Việt+Nam",
-      buttonText: "Khám phá ngay",
-      buttonColor: "var(--gold-copper)"
+      title: "Vietnam Heritage Collection",
+      subtitle: "Bộ sưu tập tôn vinh văn hóa Việt Nam",
+      description: "Khám phá bộ sưu tập áo thun và polo đặc biệt với thiết kế thể hiện tinh thần dân tộc, văn hóa truyền thống và lịch sử vẻ vang của Việt Nam",
+      image: "/images/aothuntest/aothun1.webp",
+      buttonText: "Khám phá bộ sưu tập",
+      buttonColor: "#C1121F",
+      culturalElement: "lotus",
+      gradient: "linear-gradient(135deg, #C1121F 0%, #8B0000 100%)"
     },
     {
-      title: "Chất Lượng Cao Cấp",
-      subtitle: "Cotton 100% nhập khẩu",
-      description: "Sản phẩm được làm từ chất liệu cotton cao cấp, mềm mại và bền đẹp theo thời gian",
-      image: "https://via.placeholder.com/1200x600/2E8B57/FAF4E1?text=Chất+Lượng+Cao+Cấp",
-      buttonText: "Tìm hiểu thêm",
-      buttonColor: "var(--jade-green)"
+      title: "Cà Phê Việt Nam",
+      subtitle: "Thiết kế vintage độc đáo",
+      description: "Áo thun Cà phê Việt với hình ảnh vintage café và slogan \"Cà phê Việt\" - tôn vinh văn hóa cà phê đặc sắc của Việt Nam",
+      image: "/images/aothuntest/aothun2.webp",
+      buttonText: "Xem sản phẩm",
+      buttonColor: "#FFD700",
+      culturalElement: "coffee",
+      gradient: "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)"
     },
     {
-      title: "Thiết Kế Riêng",
-      subtitle: "Tạo nên phong cách cá nhân",
-      description: "Công cụ thiết kế trực tuyến cho phép bạn tạo ra những sản phẩm độc đáo mang dấu ấn riêng",
-      image: "https://via.placeholder.com/1200x600/C89B3C/FAF4E1?text=Thiết+Kế+Riêng",
-      buttonText: "Bắt đầu thiết kế",
-      buttonColor: "var(--mahogany-brown)"
+      title: "Tinh Thần Dân Tộc",
+      subtitle: "Độc lập - Tự do - Hạnh phúc",
+      description: "Áo thun Phở Việt Nam với khẩu hiệu quốc gia, thể hiện niềm tự hào và tinh thần đoàn kết của dân tộc Việt Nam",
+      image: "/images/aothuntest/aothun3.webp",
+      buttonText: "Mua ngay",
+      buttonColor: "#003DA5",
+      culturalElement: "flag",
+      gradient: "linear-gradient(135deg, #003DA5 0%, #001F5C 100%)"
     }
   ]
 
   const features = [
     {
-      icon: <TruckOutlined style={{ fontSize: "32px", color: "var(--jade-green)" }} />,
+      icon: <TruckOutlined style={{ fontSize: "32px", color: "#52C41A" }} />,
       title: "Giao hàng nhanh",
-      description: "Miễn phí giao hàng trong 24h tại TP.HCM"
+      description: "Miễn phí giao hàng trong 24h tại TP.HCM",
+      color: "#52C41A"
     },
     {
-      icon: <SafetyOutlined style={{ fontSize: "32px", color: "var(--gold-copper)" }} />,
+      icon: <SafetyOutlined style={{ fontSize: "32px", color: "#FFD700" }} />,
       title: "Bảo hành chất lượng",
-      description: "Đổi trả miễn phí trong 30 ngày"
+      description: "Đổi trả miễn phí trong 30 ngày",
+      color: "#FFD700"
     },
     {
-      icon: <CustomerServiceOutlined style={{ fontSize: "32px", color: "var(--red-son)" }} />,
+      icon: <CustomerServiceOutlined style={{ fontSize: "32px", color: "#C1121F" }} />,
       title: "Hỗ trợ 24/7",
-      description: "Đội ngũ CSKH chuyên nghiệp"
+      description: "Đội ngũ CSKH chuyên nghiệp",
+      color: "#C1121F"
     },
     {
-      icon: <CheckCircleOutlined style={{ fontSize: "32px", color: "var(--mahogany-brown)" }} />,
+      icon: <CheckCircleOutlined style={{ fontSize: "32px", color: "#003DA5" }} />,
       title: "Sản phẩm chính hãng",
-      description: "Cam kết chất lượng 100%"
+      description: "Cam kết chất lượng 100%",
+      color: "#003DA5"
     }
   ]
 
   const stats = [
-    { title: "Khách hàng hài lòng", value: 50000, suffix: "K+", icon: <HeartOutlined />, color: "var(--red-son)" },
-    { title: "Sản phẩm đã bán", value: 100000, suffix: "K+", icon: <ShoppingCartOutlined />, color: "var(--gold-copper)" },
-    { title: "Năm kinh nghiệm", value: 5, suffix: "+", icon: <TrophyOutlined />, color: "var(--jade-green)" },
-    { title: "Tỷ lệ đánh giá 5 sao", value: 98, suffix: "%", icon: <StarFilled />, color: "var(--mahogany-brown)" },
+    { title: "Khách hàng hài lòng", value: 50000, suffix: "K+", icon: <HeartOutlined />, color: "#C1121F" },
+    { title: "Sản phẩm đã bán", value: 100000, suffix: "K+", icon: <ShoppingCartOutlined />, color: "#FFD700" },
+    { title: "Năm kinh nghiệm", value: 5, suffix: "+", icon: <TrophyOutlined />, color: "#52C41A" },
+    { title: "Tỷ lệ đánh giá 5 sao", value: 98, suffix: "%", icon: <StarFilled />, color: "#003DA5" },
   ]
 
   const culturalElements = [
     {
-      icon: <BookOutlined style={{ fontSize: "24px", color: "var(--red-son)" }} />,
-      title: "Văn hóa truyền thống",
-      description: "Tôn vinh những giá trị văn hóa đặc sắc của Việt Nam"
+      icon: <CoffeeOutlined style={{ fontSize: "24px", color: "#C1121F" }} />,
+      title: "Di sản văn hóa",
+      description: "Tôn vinh những giá trị văn hóa đặc sắc từ cà phê Việt đến phố cổ Hà Nội",
+      color: "#C1121F"
     },
     {
-      icon: <TeamOutlined style={{ fontSize: "24px", color: "var(--gold-copper)" }} />,
-      title: "Cộng đồng đoàn kết",
-      description: "Kết nối những người yêu thích thời trang Việt"
+      icon: <FlagOutlined style={{ fontSize: "24px", color: "#FFD700" }} />,
+      title: "Tinh thần dân tộc",
+      description: "Thể hiện niềm tự hào và tinh thần đoàn kết qua thiết kế đặc biệt",
+      color: "#FFD700"
     },
     {
-      icon: <CrownOutlined style={{ fontSize: "24px", color: "var(--jade-green)" }} />,
+      icon: <HistoryOutlined style={{ fontSize: "24px", color: "#003DA5" }} />,
       title: "Chất lượng cao cấp",
-      description: "Cam kết mang đến sản phẩm tốt nhất cho khách hàng"
+      description: "Cotton 100% nhập khẩu với thiết kế tinh tế và bền đẹp",
+      color: "#003DA5"
     }
   ]
 
@@ -323,10 +366,10 @@ const HomePageVietnamese = () => {
         <div className="container-standard">
           <div className="section-header">
             <Title level={2} className="heading-vietnamese section-title">
-              Giá trị truyền thống Việt Nam
+              Vietnam Heritage Collection
             </Title>
             <Paragraph className="section-description">
-              Chúng tôi tự hào mang đến những sản phẩm thể hiện tinh thần và văn hóa Việt Nam
+              Bộ sưu tập đặc biệt tôn vinh văn hóa, lịch sử và truyền thống Việt Nam qua thiết kế thời trang hiện đại
             </Paragraph>
           </div>
           
@@ -417,10 +460,10 @@ const HomePageVietnamese = () => {
         <div className="container-standard">
           <div className="section-header">
             <Title level={2} className="heading-vietnamese section-title">
-              Sản phẩm nổi bật
+              Bộ sưu tập nổi bật
             </Title>
             <Paragraph className="section-description">
-              Khám phá những sản phẩm được yêu thích nhất từ bộ sưu tập của chúng tôi
+              Khám phá những sản phẩm đặc biệt từ Vietnam Heritage Collection
             </Paragraph>
           </div>
 
@@ -436,7 +479,8 @@ const HomePageVietnamese = () => {
                   >
                     <ProductCardVietnamese 
                       product={product} 
-                      onAddToCart={() => handleAddToCart(product)} 
+                      onAddToCart={() => handleAddToCart(product)}
+                      onQuickView={handleQuickView}
                     />
                   </div>
                 </Col>
@@ -490,6 +534,96 @@ const HomePageVietnamese = () => {
           </div>
         </div>
       </div>
+
+      {/* Quick View Modal */}
+      <Modal
+        title={selectedProduct?.name || 'Chi tiết sản phẩm'}
+        open={modalVisible}
+        onCancel={() => setModalVisible(false)}
+        footer={null}
+        width={800}
+        className="quick-view-modal"
+        style={{
+          backgroundColor: 'white',
+          borderRadius: '16px'
+        }}
+        bodyStyle={{
+          backgroundColor: 'white',
+          padding: '24px'
+        }}
+        maskStyle={{
+          backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        }}
+      >
+        {selectedProduct && (
+          <div style={{ display: 'flex', gap: '20px', backgroundColor: 'white' }}>
+            <div style={{ flex: 1 }}>
+              <Image
+                src={selectedProduct.images?.[0]?.url || selectedProduct.image || '/images/placeholder.png'}
+                alt={selectedProduct.name}
+                style={{ width: '100%', borderRadius: '8px', backgroundColor: 'white' }}
+              />
+            </div>
+            <div style={{ flex: 1, backgroundColor: 'white' }}>
+              <Typography.Title level={3} style={{ color: '#2C2C2C' }}>{selectedProduct.name}</Typography.Title>
+              <Typography.Paragraph style={{ color: '#6B6B6B' }}>{selectedProduct.description}</Typography.Paragraph>
+              
+              <div style={{ marginBottom: '16px' }}>
+                <Typography.Text strong style={{ fontSize: '24px', color: '#C1121F' }}>
+                  {selectedProduct.price?.toLocaleString('vi-VN')}₫
+                </Typography.Text>
+                {selectedProduct.originalPrice && selectedProduct.originalPrice > selectedProduct.price && (
+                  <Typography.Text delete style={{ marginLeft: '8px', color: '#999' }}>
+                    {selectedProduct.originalPrice.toLocaleString('vi-VN')}₫
+                  </Typography.Text>
+                )}
+              </div>
+
+              {selectedProduct.rating && (
+                <div style={{ marginBottom: '16px' }}>
+                  <Rate disabled value={selectedProduct.rating.average} />
+                  <Typography.Text style={{ marginLeft: '8px' }}>
+                    ({selectedProduct.rating.count} đánh giá)
+                  </Typography.Text>
+                </div>
+              )}
+
+              <Space>
+                <Button
+                  type="primary"
+                  icon={<ShoppingCartOutlined />}
+                  onClick={() => {
+                    handleAddToCart(selectedProduct);
+                    setModalVisible(false);
+                  }}
+                  style={{
+                    background: 'linear-gradient(135deg, #C1121F, #8B0000)',
+                    border: 'none',
+                    height: '48px',
+                    fontSize: '16px',
+                    fontWeight: '600'
+                  }}
+                >
+                  Thêm vào giỏ
+                </Button>
+                <Button
+                  onClick={() => {
+                    setModalVisible(false);
+                    navigate(`/product/${selectedProduct._id || selectedProduct.id}`);
+                  }}
+                  style={{
+                    height: '48px',
+                    fontSize: '16px',
+                    fontWeight: '600'
+                  }}
+                >
+                  Xem chi tiết
+                </Button>
+              </Space>
+            </div>
+          </div>
+        )}
+      </Modal>
     </div>
   )
 }

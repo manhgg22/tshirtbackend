@@ -2,6 +2,39 @@
    HOMEPAGE VIETNAMESE - ANIMATIONS & STYLES
    ======================================== */
 
+/* ===== QUICK VIEW MODAL STYLES ===== */
+.quick-view-modal .ant-modal-content {
+  background-color: white !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+}
+
+.quick-view-modal .ant-modal-header {
+  background-color: white !important;
+  border-bottom: 1px solid #E8DDD0 !important;
+  border-radius: 16px 16px 0 0 !important;
+}
+
+.quick-view-modal .ant-modal-body {
+  background-color: white !important;
+  padding: 24px !important;
+}
+
+.quick-view-modal .ant-modal-close {
+  color: #C1121F !important;
+  font-size: 18px !important;
+}
+
+.quick-view-modal .ant-modal-close:hover {
+  color: #8B0000 !important;
+}
+
+.quick-view-modal .ant-modal-title {
+  color: #2C2C2C !important;
+  font-weight: 600 !important;
+  font-size: 18px !important;
+}
+
 /* ===== GLOBAL ANIMATIONS ===== */
 @keyframes fadeIn {
   from {

@@ -414,10 +414,10 @@ const LandingPage = () => {
               textAlign: 'center'
             }}>
               {[
-                { number: '4000+', label: 'Năm lịch sử', icon: '📜', color: 'var(--gold-copper)', desc: 'Từ thời Văn Lang đến nay' },
-                { number: '3', label: 'Lần đánh thắng Mông Cổ', icon: '⚔️', color: 'var(--red-son)', desc: '1258, 1285, 1288 - Chiến thắng vang dội' },
-                { number: '1000+', label: 'Năm đấu tranh giành độc lập', icon: '🛡️', color: 'var(--jade-green)', desc: 'Từ Bắc thuộc đến độc lập' },
-                { number: '100%', label: 'Tinh thần yêu nước', icon: '❤️', color: 'var(--light-gold)', desc: 'Không gì quý hơn độc lập tự do' }
+                { number: '4000+', label: 'Năm lịch sử', icon: '', color: 'var(--gold-copper)', desc: 'Từ thời Văn Lang đến nay' },
+                { number: '3', label: 'Lần đánh thắng Mông Cổ', icon: '', color: 'var(--red-son)', desc: '1258, 1285, 1288 - Chiến thắng vang dội' },
+                { number: '1000+', label: 'Năm đấu tranh giành độc lập', icon: '', color: 'var(--jade-green)', desc: 'Từ Bắc thuộc đến độc lập' },
+                { number: '100%', label: 'Tinh thần yêu nước', icon: '', color: 'var(--light-gold)', desc: 'Không gì quý hơn độc lập tự do' }
               ].map((stat, index) => (
                 <div 
                   key={index} 

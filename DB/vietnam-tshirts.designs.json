@@ -1,0 +1,98 @@
+[{
+  "_id": {
+    "$oid": "68e1fec334053bc65ecb0cf8"
+  },
+  "userId": {
+    "$oid": "68e1fec334053bc65ecb0cf1"
+  },
+  "name": "Thiết kế Cờ Đỏ Sao Vàng",
+  "image": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2ZmZmZmZiIvPjx0ZXh0IHg9IjIwMCIgeT0iMjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZGEyNTFkIiBmb250LXNpemU9IjI0Ij5WSUVUIE5BTTwvdGV4dD48dGV4dCB4PSIyMDAiIHk9IjE1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIzMiI+4p2VPC90ZXh0Pjwvc3ZnPg==",
+  "isPublic": true,
+  "createdAt": {
+    "$date": "2025-10-05T05:14:43.292Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68e1fec334053bc65ecb0cf9"
+  },
+  "userId": {
+    "$oid": "68e1fec334053bc65ecb0cf2"
+  },
+  "name": "Thiết kế Hoa Sen Truyền Thống",
+  "image": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2ZmZmZmZiIvPjx0ZXh0IHg9IjIwMCIgeT0iMTgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDU5NjY5IiBmb250LXNpemU9IjIwIj5IT0EgU0VOPC90ZXh0Pjx0ZXh0IHg9IjIwMCIgeT0iMTIwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjQwIj7wn5GRPC90ZXh0Pjwvc3ZnPg==",
+  "isPublic": true,
+  "createdAt": {
+    "$date": "2025-10-05T05:14:43.292Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68e1fec334053bc65ecb0cfa"
+  },
+  "userId": {
+    "$oid": "68e1fec334053bc65ecb0cf3"
+  },
+  "name": "Thiết kế Phở Việt Nam",
+  "image": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2ZmZmZmZiIvPjx0ZXh0IHg9IjIwMCIgeT0iMjIwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZjU5ZTBiIiBmb250LXNpemU9IjIyIj5QSE8gVklFVDwvdGV4dD48dGV4dCB4PSIyMDAiIHk9IjE0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIzNSI+8J+NuDwvdGV4dD48L3N2Zz4=",
+  "isPublic": true,
+  "createdAt": {
+    "$date": "2025-10-05T05:14:43.292Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68e1fec334053bc65ecb0cfb"
+  },
+  "userId": {
+    "$oid": "68e1fec334053bc65ecb0cf4"
+  },
+  "name": "Thiết kế Bánh Mì Sài Gòn",
+  "image": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2ZmZmZmZiIvPjx0ZXh0IHg9IjIwMCIgeT0iMjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjODRjYzE2IiBmb250LXNpemU9IjIwIj5CwU5IIE3IgTwvdGV4dD48dGV4dCB4PSIyMDAiIHk9IjEzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIzNSI+8J+WtjwvdGV4dD48L3N2Zz4=",
+  "isPublic": true,
+  "createdAt": {
+    "$date": "2025-10-05T05:14:43.292Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68e1fec334053bc65ecb0cfc"
+  },
+  "userId": {
+    "$oid": "68e1fec334053bc65ecb0cf5"
+  },
+  "name": "Thiết kế Rồng Việt",
+  "image": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2ZmZmZmZiIvPjx0ZXh0IHg9IjIwMCIgeT0iMjIwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWU0MGFmIiBmb250LXNpemU9IjIyIj5Sw5hORyBWSUVUPC90ZXh0Pjx0ZXh0IHg9IjIwMCIgeT0iMTQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjM1Ij7wn5CRPC90ZXh0Pjwvc3ZnPg==",
+  "isPublic": true,
+  "createdAt": {
+    "$date": "2025-10-05T05:14:43.292Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68e1fec334053bc65ecb0cfd"
+  },
+  "userId": {
+    "$oid": "68e1fec334053bc65ecb0cf6"
+  },
+  "name": "Thiết kế Chùa Một Cột",
+  "image": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2ZmZmZmZiIvPjx0ZXh0IHg9IjIwMCIgeT0iMjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDg5MWIyIiBmb250LXNpemU9IjIyIj5DSFVBIE3IgVCBDT1Q8L3RleHQ+PHRleHQgeD0iMjAwIiB5PSIxNDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMzUiPuKdpDwvdGV4dD48L3N2Zz4=",
+  "isPublic": true,
+  "createdAt": {
+    "$date": "2025-10-05T05:14:43.292Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68e1fec334053bc65ecb0cfe"
+  },
+  "userId": {
+    "$oid": "68e1fec334053bc65ecb0cf7"
+  },
+  "name": "Thiết kế Cầu Vàng",
+  "image": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2ZmZmZmZiIvPjx0ZXh0IHg9IjIwMCIgeT0iMjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmJiZjI0IiBmb250LXNpemU9IjIyIj5Dw5VVIETDuE5HPC90ZXh0Pjx0ZXh0IHg9IjIwMCIgeT0iMTQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjM1Ij7wn5CQPC90ZXh0Pjwvc3ZnPg==",
+  "isPublic": true,
+  "createdAt": {
+    "$date": "2025-10-05T05:14:43.292Z"
+  }
+}]

@@ -98,7 +98,7 @@ const ProductDetailPage = () => {
       
       console.log('🔍 Loading product with ID:', id);
       
-      const response = await axios.get(`/api/products/${id}`);
+      const response = await axios.get(`http://localhost:3000/api/products/${id}`);
       console.log('📦 Product API Response:', response.data);
       
       const data = response.data.data || response.data;
@@ -145,8 +145,54 @@ const ProductDetailPage = () => {
       console.error('❌ Error loading product:', error);
       console.error('Error details:', error.response?.data);
       
-      setError(error.response?.data?.message || error.message || 'Không thể tải thông tin sản phẩm');
-      message.error('Lỗi khi tải sản phẩm: ' + (error.response?.data?.message || error.message));
+      // Fallback: try to get from products list
+      try {
+        console.log('🔄 Trying fallback method...');
+        const productsResponse = await axios.get('http://localhost:3000/api/products');
+        const products = productsResponse.data.data || productsResponse.data;
+        const foundProduct = products.find(p => p._id === id || p.id === id);
+        
+        if (foundProduct) {
+          console.log('✅ Product found via fallback:', foundProduct);
+          
+          // Enhance images if only one image exists
+          if (foundProduct.images && foundProduct.images.length === 1) {
+            const primaryImage = foundProduct.images[0];
+            foundProduct.images = [
+              primaryImage,
+              { ...primaryImage, alt: 'Chi tiết sản phẩm' },
+              { ...primaryImage, alt: 'Góc nhìn khác' },
+              { ...primaryImage, alt: 'Sản phẩm thực tế' }
+            ];
+          }
+          
+          // Add default sizes if not exist
+          if (!foundProduct.sizes || foundProduct.sizes.length === 0) {
+            foundProduct.sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+          }
+          
+          // Add default colors if not exist  
+          if (!foundProduct.colors || foundProduct.colors.length === 0) {
+            foundProduct.colors = ['#DA291C', '#000000', '#FFFFFF', '#C89B3C'];
+          }
+          
+          setProduct(foundProduct);
+          
+          // Set default selections
+          if (foundProduct?.sizes?.length > 0) {
+            setSelectedSize(foundProduct.sizes[0]);
+          }
+          if (foundProduct?.colors?.length > 0) {
+            setSelectedColor(foundProduct.colors[0]);
+          }
+        } else {
+          throw new Error('Product not found in fallback');
+        }
+      } catch (fallbackError) {
+        console.error('❌ Fallback also failed:', fallbackError);
+        setError('Không thể tải thông tin sản phẩm. Vui lòng thử lại sau.');
+        message.error('Lỗi khi tải sản phẩm: ' + (fallbackError.response?.data?.message || fallbackError.message));
+      }
     } finally {
       setLoading(false);
     }

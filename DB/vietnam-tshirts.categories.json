@@ -1,0 +1,78 @@
+[{
+  "_id": {
+    "$oid": "68ef1236e958e49d602c8011"
+  },
+  "name": "Anh Hùng Dân Tộc",
+  "slug": "anh-hung-dan-toc",
+  "description": "Áo thun in hình các anh hùng dân tộc Việt Nam",
+  "image": "/images/vuahung.webp",
+  "parent": null,
+  "level": 0,
+  "isActive": true,
+  "sortOrder": 0,
+  "seo": {
+    "keywords": []
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-10-15T03:17:10.358Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-15T03:17:10.358Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68ef1236e958e49d602c8012"
+  },
+  "name": "Văn Hóa Việt Nam",
+  "slug": "van-hoa-viet-nam",
+  "description": "Áo thun thể hiện văn hóa truyền thống Việt Nam",
+  "image": "/images/placeholder.png",
+  "parent": null,
+  "level": 0,
+  "isActive": true,
+  "sortOrder": 0,
+  "seo": {
+    "keywords": []
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-10-15T03:17:10.364Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-15T03:17:10.364Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68ef26ae44795b2146503268"
+  },
+  "name": "Vietnam Heritage Collection",
+  "slug": "vietnam-heritage-collection",
+  "description": "Bộ sưu tập áo thun và polo tôn vinh văn hóa và lịch sử Việt Nam",
+  "icon": "🏛️",
+  "parent": null,
+  "level": 0,
+  "isActive": true,
+  "sortOrder": 1,
+  "seo": {
+    "title": "Vietnam Heritage Collection - Bộ sưu tập văn hóa Việt Nam",
+    "description": "Khám phá bộ sưu tập áo thun và polo tôn vinh văn hóa, lịch sử và truyền thống Việt Nam",
+    "keywords": [
+      "vietnam",
+      "heritage",
+      "văn hóa",
+      "lịch sử",
+      "áo thun",
+      "polo"
+    ]
+  },
+  "createdAt": {
+    "$date": "2025-10-15T04:44:30.681Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-15T04:44:30.681Z"
+  },
+  "__v": 0
+}]
