@@ -11,6 +11,7 @@ import categoryRoutes from './routes/categories.js';
 import reviewRoutes from './routes/reviews.js';
 import voucherRoutes from './routes/vouchers.js';
 import webhookRoutes from './routes/webhooks.js';
+import paymentRoutes from './routes/payment.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -37,6 +38,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/vouchers', voucherRoutes);
 app.use('/api/webhooks', webhookRoutes);
+app.use('/api/payment', paymentRoutes);
 app.use('/api', cityRoutes);
 
 app.get("/api/test", (req, res) => {
