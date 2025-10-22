@@ -19,6 +19,7 @@ import WishlistPage from './pages/WishlistPage';
 import OrderTrackingPage from './pages/OrderTrackingPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import ProfilePage from './pages/ProfilePage';
+import WebhookLogsPage from './pages/WebhookLogsPage';
 import './index.css'
 
 const { Content } = Layout;
@@ -81,6 +82,7 @@ function App() {
               <Route path="/orders/:id" element={<OrdersPage />} />
               <Route path="/track" element={<OrderTrackingPage />} />
               <Route path="/admin" element={<AdminDashboardPage />} />
+              <Route path="/admin/webhooks" element={<WebhookLogsPage />} />
               <Route path="/custom-design" element={<CustomDesignPage />} />
               <Route path="/profile" element={<ProfilePage />} />
             </Routes>
