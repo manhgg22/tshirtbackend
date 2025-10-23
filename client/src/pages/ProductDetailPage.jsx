@@ -40,6 +40,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { addItem } from '../redux/cartSlice';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api.js';
 import './ProductDetailPage.css';
 
 const { Title, Text, Paragraph } = Typography;
@@ -98,7 +99,7 @@ const ProductDetailPage = () => {
       
       console.log('🔍 Loading product with ID:', id);
       
-      const response = await axios.get(`http://localhost:3000/api/products/${id}`);
+      const response = await axios.get(`${API_BASE_URL}/products/${id}`);
       console.log('📦 Product API Response:', response.data);
       
       const data = response.data.data || response.data;
@@ -148,7 +149,7 @@ const ProductDetailPage = () => {
       // Fallback: try to get from products list
       try {
         console.log('🔄 Trying fallback method...');
-        const productsResponse = await axios.get('http://localhost:3000/api/products');
+        const productsResponse = await axios.get(`${API_BASE_URL}/products`);
         const products = productsResponse.data.data || productsResponse.data;
         const foundProduct = products.find(p => p._id === id || p.id === id);
         

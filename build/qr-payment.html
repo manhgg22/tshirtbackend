@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống thanh toán QR TPBank</title>
+    
+    <!-- Ant Design CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@5.12.8/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@5.12.8/dist/antd.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            color: #1890ff;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        
+        .header p {
+            color: #666;
+            margin: 10px 0 0 0;
+            font-size: 1.1em;
+        }
+        
+        .main-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .product-card {
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+        
+        .cart-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .qr-modal .ant-modal-body {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .qr-code-container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        
+        .qr-code-image {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            border: 2px solid #e8e8e8;
+            border-radius: 8px;
+        }
+        
+        .bank-info {
+            background: #f0f8ff;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+            border-left: 4px solid #1890ff;
+        }
+        
+        .admin-panel {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .order-item {
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: white;
+        }
+        
+        .status-badge {
+            font-weight: bold;
+        }
+        
+        .status-pending { color: #faad14; }
+        .status-paid { color: #52c41a; }
+        .status-processing { color: #1890ff; }
+        .status-shipped { color: #722ed1; }
+        .status-delivered { color: #52c41a; }
+        .status-cancelled { color: #ff4d4f; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🇻🇳 Hệ thống thanh toán QR TPBank</h1>
+            <p>Thanh toán đơn giản với mã QR - Tài khoản: 0359937294 (Nguyen Van A)</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Navigation Tabs -->
+            <div id="tabs-container"></div>
+            
+            <!-- Content Area -->
+            <div id="content-area" style="padding: 20px;"></div>
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div id="qr-modal" class="qr-modal" style="display: none;">
+        <div class="qr-code-container">
+            <h3>Quét mã QR để thanh toán</h3>
+            <div id="qr-image-container"></div>
+            <div class="bank-info">
+                <h4>Thông tin chuyển khoản:</h4>
+                <p><strong>Ngân hàng:</strong> TPBank</p>
+                <p><strong>Số tài khoản:</strong> 0359937294</p>
+                <p><strong>Chủ tài khoản:</strong> Nguyen Van A</p>
+                <p><strong>Số tiền:</strong> <span id="payment-amount"></span></p>
+                <p><strong>Nội dung:</strong> <span id="payment-message"></span></p>
+            </div>
+            <div style="margin-top: 20px;">
+                <button id="close-qr-modal" class="ant-btn ant-btn-primary">Đóng</button>
+                <button id="mark-as-paid" class="ant-btn ant-btn-success" style="margin-left: 10px;">Đánh dấu đã thanh toán</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/antd@5.12.8/dist/antd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script src="qr-payment.js"></script>
+</body>
+</html>

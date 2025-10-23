@@ -19,6 +19,7 @@ import {
 } from '@ant-design/icons';
 import { clearCart } from '../redux/cartSlice';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api.js';
 import './CheckoutPage.css';
 
 const CheckoutPage = () => {
@@ -329,17 +330,22 @@ const CheckoutPage = () => {
         shippingFee: shippingFee,
       };
 
-      const response = await axios.post('http://localhost:5000/api/orders/create', orderData);
+      const response = await axios.post(`${API_BASE_URL}/orders/create`, orderData);
+      console.log('📦 Order created response:', response.data);
       setOrderCreated(response.data);
       
       // Generate QR Code data
       const qrData = {
-        bankCode: 'TPBank',
-        accountNumber: '0359937294',
+        bankCode: 'MBBank',
+        accountNumber: '686829078888',
         accountName: 'LE DUC MANH',
         amount: total,
         message: `Thanh toan don hang ${response.data.orderCode}`,
+        vietQRUrl: response.data.qrCode?.imageUrl
       };
+      
+      console.log('🔗 VietQR URL from server:', response.data.qrCode?.imageUrl);
+      console.log('📱 QR Data:', qrData);
       setQrCodeData(qrData);
 
       message.success('Tạo đơn hàng thành công!');
@@ -358,16 +364,9 @@ const CheckoutPage = () => {
     message.success('Đã sao chép!');
   };
 
-  // Mark as paid
-  const markAsPaid = async () => {
-    try {
-      await axios.patch(`http://localhost:5000/api/orders/${orderCreated._id}/mark-paid`);
-      message.success('Đã xác nhận thanh toán!');
-      navigate('/orders');
-    } catch (error) {
-      console.error('Error marking as paid:', error);
-      message.error('Lỗi cập nhật trạng thái thanh toán');
-    }
+  // Navigate to payment page instead of manual mark as paid
+  const goToPayment = () => {
+    navigate(`/payment/${orderCreated.orderCode}`);
   };
 
   // Render success state (after order created)
@@ -458,8 +457,8 @@ const CheckoutPage = () => {
                 {qrCodeData && (
                   <div className="checkout-qr-modal">
                     <img
-                      src={orderCreated.qrCode?.imageUrl || 'https://via.placeholder.com/300x300?text=QR+Code'}
-              alt="QR Code" 
+                      src={qrCodeData.vietQRUrl || orderCreated.qrCode?.imageUrl || 'https://via.placeholder.com/300x300?text=QR+Code'}
+                      alt="VietQR Code" 
                       className="checkout-qr-code"
                     />
 
@@ -508,9 +507,9 @@ const CheckoutPage = () => {
                     </div>
 
                     <div className="checkout-action-buttons">
-                      <button className="checkout-submit-btn" onClick={markAsPaid}>
+                      <button className="checkout-submit-btn" onClick={goToPayment}>
                         <CheckOutlined />
-                        Tôi đã thanh toán
+                        Thanh toán QR
                       </button>
                       <button className="checkout-back-btn" onClick={() => navigate('/products')}>
                         Tiếp tục mua sắm

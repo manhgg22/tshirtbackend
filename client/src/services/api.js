@@ -1,7 +1,12 @@
 import axios from 'axios';
+import { API_BASE_URL, API_ENVIRONMENT } from '../config/api.js';
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api'
+  baseURL: API_BASE_URL,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 API.interceptors.request.use((config) => {
@@ -9,8 +14,24 @@ API.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  
+  // Add environment info to headers for debugging
+  config.headers['X-Environment'] = API_ENVIRONMENT;
+  
   return config;
 });
+
+// Response interceptor for error handling
+API.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const register = (formData) =>
   API.post('/auth/register', formData);

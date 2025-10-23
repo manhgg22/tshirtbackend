@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api.js';
 import { 
   Layout, 
   Menu, 
@@ -77,7 +78,7 @@ const ProfilePage = () => {
         }
 
         // Fetch user profile
-        const userResponse = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/auth/profile`, {
+        const userResponse = await axios.get(`${API_BASE_URL}/auth/profile`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         
@@ -97,13 +98,13 @@ const ProfilePage = () => {
         }
 
         // Fetch orders
-        const ordersResponse = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/orders`, {
+        const ordersResponse = await axios.get(`${API_BASE_URL}/orders`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setOrders(ordersResponse.data || []);
 
         // Fetch wishlist (using products endpoint for now)
-        const wishlistResponse = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/products`, {
+        const wishlistResponse = await axios.get(`${API_BASE_URL}/products`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setWishlist(wishlistResponse.data || []);

@@ -13,7 +13,7 @@ const OrdersPage = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   
   const navigate = useNavigate();
-  const API_BASE_URL = 'http://localhost:5000/api';
+  const API_BASE_URL = 'https://inkverse.online/api';
 
   useEffect(() => {
     fetchOrders();
@@ -168,10 +168,10 @@ const OrdersPage = () => {
                         {order.paymentStatus === 'pending' && (
                           <Button 
                             type="primary" 
-                            icon={<CheckCircleOutlined />}
-                            onClick={() => markAsPaid(order._id)}
+                            icon={<QrcodeOutlined />}
+                            onClick={() => navigate(`/payment/${order.orderCode}`)}
                           >
-                            Đã thanh toán
+                            Thanh toán QR
                           </Button>
                         )}
                       </Space>
@@ -195,14 +195,14 @@ const OrdersPage = () => {
           </Button>,
           selectedOrder?.paymentStatus === 'pending' && (
             <Button 
-              key="paid" 
+              key="payment" 
               type="primary" 
               onClick={() => {
-                markAsPaid(selectedOrder._id);
+                navigate(`/payment/${selectedOrder.orderCode}`);
                 setQrModalVisible(false);
               }}
             >
-              Đánh dấu đã thanh toán
+              Thanh toán QR
             </Button>
           )
         ]}
@@ -219,9 +219,9 @@ const OrdersPage = () => {
             <Card style={{ margin: '20px 0', background: '#f0f8ff', border: '1px solid #1890ff' }}>
               <Title level={4}>Thông tin chuyển khoản:</Title>
               <Space direction="vertical" style={{ width: '100%' }}>
-                <div><strong>Ngân hàng:</strong> TPBank</div>
-                <div><strong>Số tài khoản:</strong> 0359937294</div>
-                <div><strong>Chủ tài khoản:</strong> Nguyen Van A</div>
+                <div><strong>Ngân hàng:</strong> MBBank</div>
+                <div><strong>Số tài khoản:</strong> 686829078888</div>
+                <div><strong>Chủ tài khoản:</strong> LE DUC MANH</div>
                 <div><strong>Số tiền:</strong> {selectedOrder.total.toLocaleString('vi-VN')}đ</div>
                 <div><strong>Nội dung:</strong> Thanh toan don hang {selectedOrder.orderCode}</div>
               </Space>

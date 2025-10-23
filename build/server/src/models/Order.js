@@ -21,16 +21,14 @@ const orderSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    enum: ['qr_tpbank', 'qr_mbbank', 'vnpay', 'momo', 'zalopay', 'cod', 'bank_transfer', 'cash'],
-    default: 'qr_mbbank'
+    enum: ['qr_tpbank', 'cash', 'bank_transfer'],
+    default: 'qr_tpbank'
   },
   qrCode: {
     data: { type: String },
     imageUrl: { type: String },
-    bankAccount: { type: String, default: '686829078888' },
-    bankName: { type: String, default: 'MBBank' },
-    bankId: { type: String, default: '970422' },
-    accountName: { type: String, default: 'LE DUC MANH' }
+    bankAccount: { type: String, default: '0359937294' },
+    bankName: { type: String, default: 'TPBank' }
   },
   customerInfo: {
     name: { type: String, required: true },
@@ -53,6 +51,11 @@ const orderSchema = new mongoose.Schema({
   
   // Payment tracking
   paidAt: { type: Date },
+  paymentMethod: {
+    type: String,
+    enum: ['qr_tpbank', 'vnpay', 'momo', 'zalopay', 'cod', 'bank_transfer'],
+    default: 'qr_tpbank'
+  },
   paymentDetails: {
     transactionId: String,
     gatewayResponse: mongoose.Schema.Types.Mixed,

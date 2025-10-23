@@ -73,20 +73,26 @@ const generateOrderCode = () => {
   return `VN${timestamp}${random}`.toUpperCase();
 };
 
-// Generate VietQR URL for MBBank
-const generateVietQRUrl = (orderCode, total) => {
-  const bankId = '970422'; // MBBank BIN code
-  const accountNo = '686829078888';
+// Create QR payment data for MBBank
+const generateQRPaymentData = (orderCode, total) => {
+  const bankAccount = '686829078888';
+  const bankName = 'MBBank';
   const accountName = 'LE DUC MANH';
-  const template = 'compact2'; // Template with full info
-  const amount = total;
-  const description = `Thanh toan don hang ${orderCode}`;
   
-  // VietQR Quick Link format theo chuẩn VietQR.io
-  const vietQRUrl = `https://img.vietqr.io/image/${bankId}-${accountNo}-${template}.png?amount=${amount}&addInfo=${encodeURIComponent(description)}&accountName=${encodeURIComponent(accountName)}`;
+  // Create payment message
+  const message = `Thanh toan don hang ${orderCode} - ${total.toLocaleString('vi-VN')} VND`;
   
-  console.log('🔗 VietQR URL generated:', vietQRUrl);
-  return vietQRUrl;
+  // MBBank QR format (simplified)
+  const qrData = {
+    bankAccount,
+    bankName,
+    accountName,
+    amount: total,
+    message,
+    orderCode
+  };
+  
+  return JSON.stringify(qrData);
 };
 
 export const createOrder = async (req, res) => {
@@ -140,9 +146,20 @@ export const createOrder = async (req, res) => {
     const orderCode = generateOrderCode();
     console.log('🎫 Generated order code:', orderCode);
     
-    // Generate VietQR URL
-    const vietQRUrl = generateVietQRUrl(orderCode, finalTotal);
-    console.log('📱 Generated VietQR URL:', vietQRUrl);
+    const qrPaymentData = generateQRPaymentData(orderCode, finalTotal);
+    console.log('📱 Generated QR data:', qrPaymentData);
+    
+    // Generate QR code image
+    console.log('🔄 Generating QR code image...');
+    const qrCodeImage = await QRCode.toDataURL(qrPaymentData, {
+      width: 300,
+      margin: 2,
+      color: {
+        dark: '#000000',
+        light: '#FFFFFF'
+      }
+    });
+    console.log('✅ QR code image generated:', qrCodeImage.substring(0, 50) + '...');
 
     const order = new Order({
       userId,
@@ -166,16 +183,14 @@ export const createOrder = async (req, res) => {
         country: 'Vietnam'
       },
       orderCode,
-      paymentMethod: 'qr_tpbank', // Temporary fix - will be updated to qr_mbbank after schema update
+      paymentMethod: paymentMethod || 'qr_mbbank',
       voucherCode: voucherCode || null,
       discountAmount: discountAmount,
       qrCode: {
-        data: vietQRUrl,
-        imageUrl: vietQRUrl,
+        data: qrPaymentData,
+        imageUrl: qrCodeImage,
         bankAccount: '686829078888',
-        bankName: 'MBBank',
-        bankId: '970422',
-        accountName: 'LE DUC MANH'
+        bankName: 'MBBank'
       }
     });
 

@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { addItem } from '../redux/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api.js';
 import './ProductsPage.css';
 
 const { Option } = Select;
@@ -39,7 +40,7 @@ const ProductsPage = () => {
         setLoading(true);
         
         // Lấy sản phẩm từ Vietnam Heritage Collection
-        const productsResponse = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/products`);
+        const productsResponse = await axios.get(`${API_BASE_URL}/products`);
         console.log('Products response:', productsResponse.data);
         
         // Xử lý response từ API backend
@@ -65,7 +66,7 @@ const ProductsPage = () => {
         setProducts(heritageProducts);
         
         // Lấy danh mục từ database
-        const categoriesResponse = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/categories`);
+        const categoriesResponse = await axios.get(`${API_BASE_URL}/categories`);
         console.log('Categories response:', categoriesResponse.data);
         
         // Xử lý response categories
