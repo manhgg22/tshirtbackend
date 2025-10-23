@@ -58,23 +58,52 @@ export const handleSePayWebhook = async (req, res) => {
     
     const {
       amount,
+      transferAmount,
       description,
+      content,
       bank_account,
+      accountNumber,
       transaction_id,
+      referenceCode,
       transaction_time,
+      transactionDate,
       status,
       order_code,
       bank_name = 'MBBank'
     } = req.body;
 
+    // Extract order code from multiple possible fields
+    let orderCode = order_code;
+    let amountValue = amount || transferAmount;
+    let bankAccount = bank_account || accountNumber;
+    let transactionId = transaction_id || referenceCode;
+    let transactionTime = transaction_time || transactionDate;
+
+    // Try to extract order code from content or description
+    if (!orderCode) {
+      const contentText = content || description || '';
+      const orderCodeMatch = contentText.match(/don hang\s+([A-Z0-9]+)/i);
+      if (orderCodeMatch) {
+        orderCode = orderCodeMatch[1];
+      }
+    }
+
+    console.log('🔍 Extracted data:', {
+      orderCode,
+      amountValue,
+      bankAccount,
+      transactionId,
+      transactionTime
+    });
+
     // Log webhook
     const webhookLog = new WebhookLog({
       webhookId,
       eventType: 'payment_received',
-      orderCode: order_code,
-      amount: amount,
-      bankAccount: bank_account,
-      transactionId: transaction_id,
+      orderCode: orderCode,
+      amount: amountValue,
+      bankAccount: bankAccount,
+      transactionId: transactionId,
       status: status,
       requestBody: req.body,
       processedAt: new Date()
@@ -82,8 +111,8 @@ export const handleSePayWebhook = async (req, res) => {
 
     // Tìm đơn hàng theo order code
     let order = null;
-    if (order_code) {
-      order = await Order.findOne({ orderCode: order_code });
+    if (orderCode) {
+      order = await Order.findOne({ orderCode: orderCode });
     }
 
     // Nếu không tìm thấy order code, thử tìm theo description
@@ -96,9 +125,9 @@ export const handleSePayWebhook = async (req, res) => {
     }
 
     if (!order) {
-      console.log(`❌ Order not found for code: ${order_code || 'N/A'}`);
+      console.log(`❌ Order not found for code: ${orderCode || 'N/A'}`);
       webhookLog.status = 'order_not_found';
-      webhookLog.error = `Order not found for code: ${order_code}`;
+      webhookLog.error = `Order not found for code: ${orderCode}`;
       await webhookLog.save();
       
       return res.status(404).json({ 
@@ -138,10 +167,10 @@ export const handleSePayWebhook = async (req, res) => {
 
     // Kiểm tra số tiền
     const expectedAmount = order.total;
-    if (amount && Math.abs(amount - expectedAmount) > 1000) { // Cho phép sai lệch 1000 VND
-      console.log(`❌ Amount mismatch. Expected: ${expectedAmount}, Received: ${amount}`);
+    if (amountValue && Math.abs(amountValue - expectedAmount) > 1000) { // Cho phép sai lệch 1000 VND
+      console.log(`❌ Amount mismatch. Expected: ${expectedAmount}, Received: ${amountValue}`);
       webhookLog.status = 'amount_mismatch';
-      webhookLog.error = `Amount mismatch. Expected: ${expectedAmount}, Received: ${amount}`;
+      webhookLog.error = `Amount mismatch. Expected: ${expectedAmount}, Received: ${amountValue}`;
       await webhookLog.save();
       
       return res.status(400).json({ 
@@ -156,10 +185,10 @@ export const handleSePayWebhook = async (req, res) => {
     order.status = 'paid';
     order.paidAt = new Date();
     order.paymentDetails = {
-      transactionId: transaction_id,
+      transactionId: transactionId,
       gatewayResponse: req.body,
       paymentMethod: 'sepay_qr',
-      bankAccount: bank_account,
+      bankAccount: bankAccount,
       bankName: bank_name
     };
 
