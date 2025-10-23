@@ -29,6 +29,7 @@ import {
 } from '@ant-design/icons';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api.js';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -46,7 +47,7 @@ const PaymentPage = () => {
   // Fetch order data
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get(`/api/payment/info/${orderCode}`);
+      const response = await axios.get(`${API_BASE_URL}/payment/info/${orderCode}`);
       if (response.data.success) {
         setOrder(response.data.order);
         setTimeRemaining(response.data.timeRemaining);
@@ -69,17 +70,27 @@ const PaymentPage = () => {
   // Check payment status
   const checkPaymentStatus = async () => {
     try {
-      const response = await axios.get(`/api/payment/status/${orderCode}`);
+      console.log('🔄 Checking payment status for:', orderCode);
+      const response = await axios.get(`${API_BASE_URL}/payment/status/${orderCode}`);
+      console.log('📊 Payment status response:', response.data);
+      
       if (response.data.success) {
         if (response.data.paymentStatus === 'paid') {
+          console.log('✅ Payment confirmed! Redirecting...');
           setOrder(prev => ({ ...prev, paymentStatus: 'paid', status: 'paid' }));
           setShowSuccessModal(true);
           clearInterval(intervalRef.current);
           message.success('Thanh toán thành công!');
+          
+          // Auto redirect after 2 seconds
+          setTimeout(() => {
+            navigate('/orders');
+          }, 2000);
         }
       }
     } catch (error) {
-      console.error('Check payment status error:', error);
+      console.error('❌ Check payment status error:', error);
+      // Don't stop polling on error, just log it
     }
   };
 
@@ -89,9 +100,14 @@ const PaymentPage = () => {
       clearInterval(intervalRef.current);
     }
     
+    console.log('🚀 Starting payment polling...');
+    // Check immediately first
+    checkPaymentStatus();
+    
+    // Then check every 2 seconds
     intervalRef.current = setInterval(() => {
       checkPaymentStatus();
-    }, 3000); // Check every 3 seconds
+    }, 2000);
   };
 
   // Stop polling
@@ -212,28 +228,43 @@ const PaymentPage = () => {
               <Title level={4}>📋 Thông tin đơn hàng</Title>
               <Space direction="vertical" style={{ width: '100%' }}>
                 <div>
-                  <Text strong>Tổng tiền: </Text>
-                  <Text style={{ fontSize: '20px', color: '#A61C1C' }}>
-                    {order.total.toLocaleString('vi-VN')} VND
+                  <Text strong>Mã đơn hàng:</Text> {order.orderCode}
+                </div>
+                <div>
+                  <Text strong>Tổng tiền:</Text> 
+                  <Text style={{ color: '#A61C1C', fontSize: '18px', fontWeight: 'bold' }}>
+                    {order.total?.toLocaleString('vi-VN')} VNĐ
                   </Text>
                 </div>
                 <div>
-                  <Text strong>Trạng thái: </Text>
-                  {order.paymentStatus === 'paid' ? (
-                    <Tag color="green" icon={<CheckCircleOutlined />}>
-                      Đã thanh toán
-                    </Tag>
-                  ) : (
-                    <Tag color="orange" icon={<ClockCircleOutlined />}>
-                      Chờ thanh toán
-                    </Tag>
-                  )}
+                  <Text strong>Trạng thái:</Text> 
+                  <Tag color={order.paymentStatus === 'paid' ? 'green' : 'orange'}>
+                    {order.paymentStatus === 'paid' ? 'Đã thanh toán' : 'Chờ thanh toán'}
+                  </Tag>
                 </div>
                 <div>
-                  <Text strong>Ngày tạo: </Text>
-                  <Text>{new Date(order.createdAt).toLocaleString('vi-VN')}</Text>
+                  <Text strong>Thời gian còn lại:</Text>
+                  <Text style={{ color: isExpired ? '#ff4d4f' : '#52c41a' }}>
+                    {isExpired ? 'Hết hạn' : `${Math.floor(timeRemaining / 60000)}:${Math.floor((timeRemaining % 60000) / 1000).toString().padStart(2, '0')}`}
+                  </Text>
                 </div>
               </Space>
+              
+              {/* Manual Check Button */}
+              <Divider />
+              <div style={{ textAlign: 'center' }}>
+                <Button 
+                  type="primary" 
+                  icon={<ReloadOutlined />}
+                  onClick={checkPaymentStatus}
+                  style={{ marginRight: '10px' }}
+                >
+                  Kiểm tra thanh toán
+                </Button>
+                <Text type="secondary" style={{ fontSize: '12px' }}>
+                  Tự động kiểm tra mỗi 2 giây
+                </Text>
+              </div>
             </Card>
           </Col>
 
